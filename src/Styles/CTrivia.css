@@ -1,175 +1,98 @@
 /* CTrivia.css */
 
-/* Reset completo para eliminar márgenes por defecto */
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.trivia-container {
+  background-image: url('../IMG/Fondo.jpg');
+  background-size: cover;
+  background-position: center bottom; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trivia-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 450px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.game-logo {
+  max-width: 400px; 
+  margin-bottom: 1rem;
+}
+
+.game-title {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.game-button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.game-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.start-button {
+  background-color: #4CAF50;
+}
+
+.login-button {
+  background-color: #2196F3;
+}
+
+.guide-button {
+  background-color: #FF9800;
+}
+
+@media (max-height: 600px) {
+  .trivia-content {
+    padding: 1.5rem;
   }
   
-  html, body, #root {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  /* Contenedor que ocupa toda la pantalla */
-  .full-screen-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  
-  /* Fondo del juego */
-  .game-background {
-    width: 100%;
-    height: 100%;
-    background-color: #4fa2eb;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Nubes en las esquinas superiores */
-  .cloud {
-    position: absolute;
-    width: 250px;
-    height: auto;
-  }
-  
-  .top-left-cloud {
-    top: 20px;
-    left: 20px;
-  }
-  
-  .top-right-cloud {
-    top: 20px;
-    right: 20px;
-  }
-  
-  /* Contenido central */
-  .center-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: -40px; /* Para bajar un poco desde las nubes */
-  }
-  
-  /* Logo del juego */
   .game-logo {
-    width: 250px; /* Logo más grande */
-    height: auto;
-    margin-bottom: 20px;
+    max-width: 100px;
   }
   
-  /* Título del juego */
   .game-title {
-    color: white;
-    font-size: 3.5rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-    margin-bottom: 40px;
-    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
   
-  /* Contenedor de botones */
-  .buttons-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 350px;
-    max-width: 90%;
-  }
-  
-  /* Estilo de los botones */
   .game-button {
-    padding: 18px 25px;
-    border: none;
-    border-radius: 30px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    text-align: center;
+    padding: 0.8rem;
   }
-  
-  .game-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  }
-  
-  .start-button {
-    background-color: #ff5252;
-    color: white;
-  }
-  
-  .login-button {
-    background-color: #66bb6a;
-    color: white;
-  }
-  
-  .guide-button {
-    background-color: #ffc107;
-    color: #333;
-  }
-  
-  /* Asegurando responsividad */
-  @media (max-width: 768px) {
-    .cloud {
-      width: 180px;
-    }
-    
-    .game-logo {
-      width: 200px;
-    }
-    
-    .game-title {
-      font-size: 2.8rem;
-    }
-    
-    .buttons-wrapper {
-      width: 300px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .cloud {
-      width: 120px;
-    }
-    
-    .top-left-cloud {
-      top: 10px;
-      left: 10px;
-    }
-    
-    .top-right-cloud {
-      top: 10px;
-      right: 10px;
-    }
-    
-    .game-logo {
-      width: 150px;
-    }
-    
-    .game-title {
-      font-size: 2.2rem;
-      margin-bottom: 30px;
-    }
-    
-    .buttons-wrapper {
-      gap: 15px;
-    }
-    
-    .game-button {
-      padding: 15px 20px;
-      font-size: 18px;
-    }
-  }
+}

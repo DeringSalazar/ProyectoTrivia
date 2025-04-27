@@ -1,0 +1,330 @@
+/* Colorful Quiz Interface Mejorado - Sin Card Visible */
+
+/* Estilos generales y variables */
+:root {
+    /* Paleta de colores actualizada más armoniosa */
+    --primary-color: #6366F1;
+    --secondary-color: #8B5CF6;
+    --accent-color: #EC4899;
+    --text-color: #1F2937;
+    --light-bg: #F9FAFB;
+    --input-bg: #F3F4F6;
+    --success: #10B981;
+    --warning: #FBBF24;
+    --danger: #EF4444;
+    --border-radius: 16px;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.07);
+  }
+  
+  body {
+    background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text-color);
+  }
+
+  /* Estilos para la nube en el botón */
+.btn-primary {
+    /* Mantener los estilos existentes */
+    position: relative;
+    overflow: hidden; /* Importante para contener la nube */
+  }
+  
+  /* Creamos la nube con pseudo-elementos */
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50px;
+    top: 10px;
+    left: -100px; /* Inicialmente fuera del botón */
+    filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 
+      30px 10px 0 -5px rgba(255, 255, 255, 0.6),
+      50px 15px 0 -8px rgba(255, 255, 255, 0.4);
+    pointer-events: none; /* Para que no interfiera con el botón */
+  }
+  
+  /* Cuando pasamos el cursor por encima del botón */
+  .btn-primary:hover::after {
+    opacity: 0.7;
+    animation: floatCloud 3s ease-in-out infinite;
+  }
+  
+  /* Animación de la nube flotando */
+  @keyframes floatCloud {
+    0% {
+      left: -100px;
+    }
+    100% {
+      left: calc(100% + 100px);
+    }
+  }
+  
+  /* Eliminar apariencia de card para un diseño más integrado */
+  .card.shadow-sm {
+    border-radius: var(--border-radius);
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .card-body {
+    padding: 0 !important;
+  }
+  
+  .card-title {
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  
+  /* Estilizar Form Groups con diseño mejorado */
+  .form-group {
+    margin-bottom: 2rem !important;
+    position: relative;
+    backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1), 0 2px 8px rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+  }
+  
+  .form-group:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.15), 0 3px 12px rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  .form-label {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    display: block;
+    transition: all 0.2s ease;
+    position: relative;
+    padding-left: 1rem;
+  }
+  
+  .form-label::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+  }
+  
+  .form-select {
+    border-radius: var(--border-radius);
+    padding: 12px 20px;
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    background-color: var(--input-bg);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236366F1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    width: 100%;
+  }
+  
+  .form-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+  }
+  
+  .form-select:hover {
+    border-color: var(--secondary-color);
+  }
+  
+  /* Estilos para opciones */
+  .form-select option {
+    padding: 12px;
+    font-weight: 500;
+  }
+  
+  /* Estilo para el botón */
+  .btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 1rem;
+    color: white;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.6s;
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
+  }
+  
+  .btn-primary:hover, .btn-primary:focus {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+  
+  /* Spinner personalizado */
+  .spinner-border {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-width: 0.2em;
+    border-color: rgba(255, 255, 255, 0.5);
+    border-right-color: transparent;
+  }
+  
+  /* Alerta personalizada */
+  .alert-danger {
+    background-color: rgba(239, 68, 68, 0.08);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(4px);
+  }
+  
+  .alert-danger::before {
+    content: "⚠️";
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  /* Efectos de animación */
+  @keyframes fadeInUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .card-title {
+    animation: fadeIn 0.8s forwards;
+  }
+  
+  .form-group {
+    animation: fadeInUp 0.6s forwards;
+    animation-delay: calc(var(--animation-order) * 0.15s);
+  }
+  
+  .form-group:nth-child(1) { --animation-order: 1; }
+  .form-group:nth-child(2) { --animation-order: 2; }
+  .form-group:nth-child(3) { --animation-order: 3; }
+  
+  .btn-primary {
+    animation: fadeInUp 0.6s forwards;
+    animation-delay: 0.6s;
+  }
+  
+  /* Ajuste responsivo */
+  @media (max-width: 576px) {
+    .card-title {
+      font-size: 1.8rem;
+    }
+    
+    .form-group {
+      padding: 1.2rem;
+      margin-bottom: 1.5rem !important;
+    }
+    
+    .form-select, .btn-primary {
+      padding: 12px 15px;
+      font-size: 1rem;
+    }
+    
+    .form-label {
+      font-size: 1rem;
+    }
+  }
+  
+  /* Nuevos efectos para los form-groups */
+  .form-group::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    right: 10%;
+    width: 80%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    opacity: 0.7;
+  }
+  
+  /* Animar etiquetas durante el foco */
+  .form-group:focus-within .form-label {
+    transform: translateX(5px);
+    color: var(--secondary-color);
+  }
+  
+  /* Estado deshabilitado mejorado */
+  .form-select:disabled, .btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .btn-primary:disabled {
+    background: linear-gradient(45deg, #A5A6F6, #B8A3F9);
+  }
+  
+  /* Mejora visual para el botón de carga */
+  .btn-primary:disabled .spinner-border {
+    opacity: 0.8;
+  }
