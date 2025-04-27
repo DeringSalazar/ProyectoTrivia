@@ -8,6 +8,7 @@ import './App.css';
 import PTrivia from './Pages/PTrivia';
 
 
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -15,7 +16,9 @@ function App() {
     <BrowserRouter>
       <div className="app-container">
         <Routes>
-          <Route path="/" element={<PTrivia count={count} setCount={setCount} />} />
+         
+        <Route path="/" element={<PTrivia count={count} setCount={setCount} />} />
+
         </Routes>
       </div>
     </BrowserRouter>
