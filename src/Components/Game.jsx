@@ -69,7 +69,7 @@ function Game({ gameConfig, questions, setGameStats }) {
           percentage
         };
         setGameStats(finalStats);
-        navigate('/results');
+        navigate('/PResults');
       }
     }, 2000);
   };
