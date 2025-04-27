@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import ResultSummary from './ResultSummary';
-import ShareButtons from './ShareButtons';
-import LoginPrompt from './LoginPrompt';
-import PlayAgainButton from './PlayAgainButton';
+import ResultSummary from '../Components/ResultSummary';
+import ShareButtons from '../Components/ShareButtons';
+import LoginPrompt from '../Components/LoginPrompt';
+import PlayAgainButton from '../Components/PlayAgainButton';
 
-function Results({ gameStats, user }) {
+function PResults({ gameStats, user }) {
   return (
     <Card className="shadow-sm results-card">
       <Card.Body className="p-4 text-center">
@@ -25,4 +25,4 @@ function Results({ gameStats, user }) {
   );
 }
 
-export default Results;
+export default PResults;
