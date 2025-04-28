@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Badge, ProgressBar, Button } from 'react-bootstrap';
 import Question from './Question';
 import Timer from './Timer';
+import '../Styles/CGame.css';
+import logoImg from '../IMG/Brain.png'; 
+
 function Game({ gameConfig, questions, setGameStats }) {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -84,9 +87,20 @@ function Game({ gameConfig, questions, setGameStats }) {
   }
 
   const currentQuestion = questions[currentQuestionIndex];
+  const [showHome] = useState(false);
 
   return (
     <div className="game-container">
+      {!showHome && (
+          <>
+            <img
+              src={logoImg}
+              alt="Logo del juego"
+              className="game-logo"
+            />
+            <h1 className="game-title">Brain Brawl</h1>
+          </>
+        )}
       <div className="game-header mb-4">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <Badge bg="primary">Pregunta {currentQuestionIndex + 1}/{questions.length}</Badge>
