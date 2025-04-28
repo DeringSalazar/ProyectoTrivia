@@ -103,8 +103,8 @@ function Game({ gameConfig, questions, setGameStats }) {
         )}
       <div className="game-header mb-4">
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <Badge bg="primary">Pregunta {currentQuestionIndex + 1}/{questions.length}</Badge>
-          <Badge bg="info">Puntuación: {score}</Badge>
+          <Badge className="question-badge" bg="primary">Pregunta {currentQuestionIndex + 1}/{questions.length}</Badge>
+          <Badge className="score-badge" bg="info">Puntuación: {score}</Badge>
         </div>
         <ProgressBar
           now={timeLeft}

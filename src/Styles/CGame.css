@@ -97,17 +97,7 @@
     margin-bottom: 30px;
     width: 100%;
     max-width: 700px;
-}
-
-/* Estilo para la pregunta */
-.question-card .mb-4 {
-    border-radius: 5px;
-    background: transparent;
-    font-size: 1.5rem;
-    color: #333;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 20px;
+    /* Añadí un límite de ancho máximo */
 }
 
 /* Contenedor de botones de respuestas */
@@ -193,6 +183,7 @@
     border-radius: 5px;
     height: 8px;
     background-color: #4CAF50;
+    /* Color de la barra de progreso */
     transition: width 0.3s ease;
 }
 
