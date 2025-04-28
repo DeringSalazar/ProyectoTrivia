@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Add this import
 import { Button, Form, Card, Spinner, Alert } from 'react-bootstrap';
-import '../styles/CHome.css';
+import styles from '../styles/CHome.module.css';
 
 const categories = [
   { id: 9, name: 'Conocimiento General' },
@@ -272,96 +272,104 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   };
 
   return (
-    <Card className="shadow-sm" style={{ maxWidth: '450px', margin: '0 auto' }}>
-      <Card.Body className="p-3">
-        <Card.Title className="text-center mb-3">Configura tu Juego</Card.Title>
-        
-        {error && <Alert variant="danger">{error}</Alert>}
-        
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-2">
-            <Form.Label>Categoría</Form.Label>
-            <Form.Select 
-              value={category} 
-              onChange={(e) => setCategory(e.target.value)}
-              disabled={loading}
-            >
-              <option value="">Selecciona una categoría</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+    // Agregar contenedor general para el fondo
+    <div className={styles.quizContainer}>
+      <Card className={styles.cardShadow}>
+        <Card.Body className={styles.cardBody}>
+          <Card.Title className={styles.cardTitle}>Configura tu Juego</Card.Title>
+          
+          {error && <Alert variant="danger" className={styles.alertDanger}>{error}</Alert>}
+          
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className={styles.formGroup} style={{"--animation-order": 1}}>
+              <Form.Label className={styles.formLabel}>Categoría</Form.Label>
+              <Form.Select 
+                className={styles.formSelect}
+                value={category} 
+                onChange={(e) => setCategory(e.target.value)}
+                disabled={loading}
+              >
+                <option value="">Selecciona una categoría</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          <Form.Group className="mb-2">
-            <Form.Label>Dificultad</Form.Label>
-            <Form.Select 
-              value={difficulty} 
-              onChange={(e) => setDifficulty(e.target.value)}
-              disabled={loading}
-            >
-              <option value="">Selecciona una dificultad</option>
-              {difficulties.map((diff) => (
-                <option key={diff.id} value={diff.id}>
-                  {diff.name} - {diff.timeLimit} seg
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+            <Form.Group className={styles.formGroup} style={{"--animation-order": 2}}>
+              <Form.Label className={styles.formLabel}>Dificultad</Form.Label>
+              <Form.Select 
+                className={styles.formSelect}
+                value={difficulty} 
+                onChange={(e) => setDifficulty(e.target.value)}
+                disabled={loading}
+              >
+                <option value="">Selecciona una dificultad</option>
+                {difficulties.map((diff) => (
+                  <option key={diff.id} value={diff.id}>
+                    {diff.name} - {diff.timeLimit} seg
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Idioma</Form.Label>
-            <Form.Select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              disabled={loading}
-            >
-              <option value="">Selecciona un idioma</option>
-              {languages.map((lang) => (
-                <option key={lang.id} value={lang.id}>
-                  {lang.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+            <Form.Group className={styles.formGroup} style={{"--animation-order": 3}}>
+              <Form.Label className={styles.formLabel}>Idioma</Form.Label>
+              <Form.Select
+                className={styles.formSelect}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                disabled={loading}
+              >
+                <option value="">Selecciona un idioma</option>
+                {languages.map((lang) => (
+                  <option key={lang.id} value={lang.id}>
+                    {lang.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
 
-          <div className="d-grid">
-            <Button 
-              variant="primary" 
-              type="submit" 
-              disabled={loading}
-              className="py-2"
-            >
-              {loading ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                    className="me-2"
-                  />
-                  Cargando...
-                </>
-              ) : (
-                'Comenzar Juego'
-              )}
-            </Button>
-            {!user && (
-              <div className="login-prompt mt-3">
-                <p className="mb-2 text-center">¿Quieres guardar tus estadísticas?</p>
-                <div className="d-grid">
-                  <Link to="/login" className="btn btn-outline-primary">Iniciar Sesión</Link>
+            <div className="d-grid">
+              <Button 
+                variant="primary" 
+                type="submit" 
+                disabled={loading}
+                className={styles.btnPrimary}
+              >
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className={`me-2 ${styles.spinnerBorder}`}
+                    />
+                    Cargando...
+                  </>
+                ) : (
+                  'Comenzar Juego'
+                )}
+              </Button>
+              {!user && (
+                <div className={styles.loginPrompt}>
+                  <p className="mb-2">¿Quieres guardar tus estadísticas?</p>
+                  <div className="d-grid">
+                    <Link to="/login" className={`btn ${styles.btnOutline}`}>
+                      Iniciar Sesión
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        </Form>
-      </Card.Body>
-    </Card>
+              )}
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
   );
 }
 
