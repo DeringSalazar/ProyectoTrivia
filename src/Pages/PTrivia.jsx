@@ -5,6 +5,7 @@ import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
 import Game from '../Components/Game';
 import Login from '../Components/Login';
+import PResults from './PResults'; // Asegúrate de que la ruta es correcta
 
 function PTrivia({ onShowGuide, onLogin }) {
   const [gameConfig, setGameConfig] = useState({
@@ -39,18 +40,19 @@ function PTrivia({ onShowGuide, onLogin }) {
 
   // Función para jugar ahorcado
   const handlePlayHangman = () => {
-    navigate('/hangman');
+    navigate('/hangman'); // Redirige a la página del ahorcado
   };
 
-  // Función para manejar el éxito del login
-  const handleLoginSuccess = (userData) => {
-    if (userData) {
-      setUser(userData);
-      setCurrentScreen('home'); // Redirecciona a PHome después de login exitoso
-    } else {
-      // Si userData es null, volvemos a la pantalla de bienvenida
-      setCurrentScreen('welcome');
-    }
+  // Función para finalizar el juego y mostrar resultados
+  const handleEndGame = (stats) => {
+    console.log("Juego terminado, resultados:", stats);
+    setGameStats(stats);
+    setCurrentScreen('results');
+  };
+
+  // Función para volver a jugar
+  const handlePlayAgain = () => {
+    setCurrentScreen('home');
   };
 
   return (
@@ -60,7 +62,7 @@ function PTrivia({ onShowGuide, onLogin }) {
           <>
             <img src={logoImg} alt="Brain Brawl Logo" className="logo" />
             <h1 className="title">Brain Brawl</h1>
-
+            
             <div className="button-container">
               <button className="start-button" onClick={handleStartGame}>
                 Iniciar Juego
@@ -75,7 +77,7 @@ function PTrivia({ onShowGuide, onLogin }) {
             </div>
           </>
         )}
-
+        
         {currentScreen === 'home' && (
           <PHome
             setGameConfig={setGameConfig}
@@ -84,36 +86,33 @@ function PTrivia({ onShowGuide, onLogin }) {
             navigateToGame={navigateToGame}
           />
         )}
-
+        
         {currentScreen === 'game' && (
           <Game
             questions={questions}
             gameConfig={gameConfig}
-            setGameStats={setGameStats}
-            onEndGame={() => setCurrentScreen('results')}
+            setGameStats={setGameStats} // Mantener compatibilidad con tu código original
+            onEndGame={handleEndGame} // Nuevo método para manejar el fin del juego
           />
         )}
-
+        
         {currentScreen === 'login' && (
           <Login 
             setUser={setUser} 
-            onLoginSuccess={handleLoginSuccess} 
+            onLoginSuccess={() => setCurrentScreen('welcome')}
           />
         )}
-
+        
         {currentScreen === 'results' && (
-          <div className="results-container">
-            <h2>Resultados del juego</h2>
-            <p>Respuestas correctas: {gameStats.correctAnswers} de {gameStats.totalQuestions}</p>
-            <p>Porcentaje: {gameStats.percentage}%</p>
-            <button onClick={() => setCurrentScreen('welcome')}>
-              Volver al inicio
-            </button>
-          </div>
+          <PResults 
+            gameStats={gameStats} 
+            user={user} 
+            onPlayAgain={handlePlayAgain}
+          />
         )}
       </div>
     </div>
   );
 }
 
-export default PTrivia;
+export default PTrivia;

@@ -6,7 +6,7 @@ import Timer from './Timer';
 import '../Styles/CGame.css';
 import logoImg from '../IMG/Brain.png'; 
 
-function Game({ gameConfig, questions, setGameStats }) {
+function Game({ gameConfig, questions, setGameStats, onEndGame }) {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -43,6 +43,12 @@ function Game({ gameConfig, questions, setGameStats }) {
     }
   }, [timeLeft, isAnswered]);
 
+  const handleTimeUp = () => {
+    if (!isAnswered) {
+      handleAnswer(null);
+    }
+  };
+
   const handleAnswer = (answer) => {
     const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = answer === currentQuestion.correct_answer;
@@ -71,8 +77,17 @@ function Game({ gameConfig, questions, setGameStats }) {
           correctAnswers: updatedScore,
           percentage
         };
+        
+        // Actualizar las estadísticas de juego
         setGameStats(finalStats);
-        navigate('/PResults');
+        
+        // Llamar a onEndGame si existe (para cuando se usa dentro de PTrivia)
+        if (onEndGame) {
+          onEndGame(finalStats);
+        } else {
+          // Navegar directamente a resultados si no hay onEndGame (para uso directo)
+          navigate('/PResults');
+        }
       }
     }, 2000);
   };
@@ -112,9 +127,12 @@ function Game({ gameConfig, questions, setGameStats }) {
           variant={timeLeft < 5 ? "danger" : timeLeft < 10 ? "warning" : "success"}
           className="mb-2"
         />
-        <div className="text-end">
-          <small>Tiempo: {timeLeft}s</small>
-        </div>
+        
+        {/* Usar el componente Timer */}
+        <Timer 
+          timeLeft={timeLeft} 
+          onTimeUp={handleTimeUp} 
+        />
       </div>
 
       <Question
