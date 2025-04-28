@@ -7,6 +7,7 @@ import './App.css';
 {/* Pages */}
 import PTrivia from './Pages/PTrivia';
 import PResults from './Pages/PResults';
+import Login from './Components/Login';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <Routes>
          
         <Route path="/" element={<PTrivia count={count} setCount={setCount} />} />
-        
+        <Route path="/login" element={<Login />} /> {/* <-- Agrega esta ruta */}
 
         </Routes>
       </div>

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import '../styles/CTrivia.css';
 import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
-import Game from '../Components/Game';  
+import Game from '../Components/Game';
+import Login from '../Components/Login';
 
 function PTrivia({ onShowGuide, onLogin }) {
   const [gameConfig, setGameConfig] = useState({
@@ -18,7 +19,7 @@ function PTrivia({ onShowGuide, onLogin }) {
   });
   const [user, setUser] = useState(null);
   const [currentScreen, setCurrentScreen] = useState('welcome'); // welcome, home, game
-  
+
   // Función para manejar el inicio del juego
   const handleStartGame = () => {
     setCurrentScreen('home');
@@ -28,7 +29,11 @@ function PTrivia({ onShowGuide, onLogin }) {
   const navigateToGame = () => {
     setCurrentScreen('game');
   };
-  
+
+  const navigateToLogin = () => {
+    setCurrentScreen('login');
+  };
+
   return (
     <div className="trivia-container">
       <div className="trivia-content">
@@ -36,7 +41,7 @@ function PTrivia({ onShowGuide, onLogin }) {
           <>
             <img src={logoImg} alt="Brain Brawl Logo" className="logo" />
             <h1 className="title">Brain Brawl</h1>
-            
+
             <div className="button-container">
               <button className="start-button" onClick={handleStartGame}>
                 Iniciar Juego
@@ -50,9 +55,9 @@ function PTrivia({ onShowGuide, onLogin }) {
             </div>
           </>
         )}
-        
+
         {currentScreen === 'home' && (
-          <PHome 
+          <PHome
             setGameConfig={setGameConfig}
             setQuestions={setQuestions}
             user={user}
@@ -61,12 +66,18 @@ function PTrivia({ onShowGuide, onLogin }) {
         )}
 
         {currentScreen === 'game' && (
-          <Game 
+          <Game
             questions={questions}
             gameConfig={gameConfig}
             setGameStats={setGameStats}
             onEndGame={() => setCurrentScreen('results')}
           />
+        )}
+
+        {currentScreen === 'login' && (
+          <Login
+          setUser={setUser}
+        />
         )}
 
         {currentScreen === 'results' && (
