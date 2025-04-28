@@ -348,6 +348,12 @@ function PHome({ setGameConfig, setQuestions }) {
                 'Comenzar Juego'
               )}
             </Button>
+            {!user && (
+              <div className="login-prompt">
+                <p>¿Quieres guardar tus estadísticas?</p>
+                <Link to="/login" className="login-button">Iniciar Sesión</Link>
+              </div>
+            )}
           </div>
         </Form>
       </Card.Body>
