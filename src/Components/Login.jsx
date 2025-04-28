@@ -4,17 +4,16 @@ import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPass
 import { auth, googleProvider, facebookProvider } from '../firebase';
 import PLogin from '../Pages/PLogin';
 
-function Login({ setUser }) {
+function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null); // Agregado el estado user
 
   const defaultPhotoURL = 'ruta/a/imagen/default.jpg'; 
 
- 
   const getUserPhotoURL = (user) => {
-
     return user.photoURL || defaultPhotoURL;
   };
 
@@ -39,7 +38,6 @@ function Login({ setUser }) {
     }
   };
 
-
   const loginWithFacebook = async () => {
     try {
       const result = await signInWithPopup(auth, facebookProvider);
@@ -59,7 +57,6 @@ function Login({ setUser }) {
       console.error(err);
     }
   };
-
 
   const loginWithEmailPassword = async (e) => {
     e.preventDefault();
@@ -91,10 +88,7 @@ function Login({ setUser }) {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       const user = result.user;
 
-      
       const userPhotoURL = getUserPhotoURL(user); 
-
-     
       const userDisplayName = user.displayName || user.email;
 
       setUser({
@@ -123,7 +117,7 @@ function Login({ setUser }) {
       setEmail={setEmail}
       password={password}
       setPassword={setPassword}
-      setUser={setUser}
+      user={user} // Pasamos el objeto user
     />
   );
 }
