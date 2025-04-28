@@ -1,0 +1,70 @@
+
+body {
+  height: 100%;
+  background-image: url('../IMG/Fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  color: #000000;
+}
+
+.logo-trivia {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-trivia img {
+  width: 500px; 
+  height: auto;
+  margin-bottom: 15px;
+}
+
+
+
+#game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.letters button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #3f34db;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.letters button:hover {
+  background-color: #2980b9;
+}
+
+#restartBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#restartBtn:hover {
+  background-color: #27ae60;
+}

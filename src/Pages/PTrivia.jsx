@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- Agregado
 import '../styles/CTrivia.css';
 import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
@@ -18,20 +19,27 @@ function PTrivia({ onShowGuide, onLogin }) {
     percentage: 0,
   });
   const [user, setUser] = useState(null);
-  const [currentScreen, setCurrentScreen] = useState('welcome'); // welcome, home, game
+  const [currentScreen, setCurrentScreen] = useState('welcome'); // welcome, home, game, login, results
 
-  // Función para manejar el inicio del juego
+  const navigate = useNavigate(); // <-- Agregado
+
+  // Función para manejar el inicio del juego principal
   const handleStartGame = () => {
     setCurrentScreen('home');
   };
 
-  // Función para navegar al juego (se pasa a PHome)
+  // Función para navegar al juego
   const navigateToGame = () => {
     setCurrentScreen('game');
   };
 
   const navigateToLogin = () => {
     setCurrentScreen('login');
+  };
+
+  // Función para jugar ahorcado
+  const handlePlayHangman = () => {
+    navigate('/hangman'); // Redirige a la página del ahorcado
   };
 
   return (
@@ -49,8 +57,9 @@ function PTrivia({ onShowGuide, onLogin }) {
               <button className="login-button" onClick={onLogin}>
                 Iniciar Sesión
               </button>
-              <button className="guide-button" onClick={onShowGuide}>
-                Guía del Juego
+              
+              <button className="guide-button" onClick={handlePlayHangman}>
+                Juego Ahorcado
               </button>
             </div>
           </>
@@ -75,9 +84,7 @@ function PTrivia({ onShowGuide, onLogin }) {
         )}
 
         {currentScreen === 'login' && (
-          <Login
-          setUser={setUser}
-        />
+          <Login setUser={setUser} />
         )}
 
         {currentScreen === 'results' && (
@@ -85,7 +92,9 @@ function PTrivia({ onShowGuide, onLogin }) {
             <h2>Resultados del juego</h2>
             <p>Respuestas correctas: {gameStats.correctAnswers} de {gameStats.totalQuestions}</p>
             <p>Porcentaje: {gameStats.percentage}%</p>
-            <button onClick={() => setCurrentScreen('welcome')}>Volver al inicio</button>
+            <button onClick={() => setCurrentScreen('welcome')}>
+              Volver al inicio
+            </button>
           </div>
         )}
       </div>

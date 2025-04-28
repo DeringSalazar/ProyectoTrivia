@@ -8,6 +8,7 @@ import './App.css';
 import PTrivia from './Pages/PTrivia';
 import PResults from './Pages/PResults';
 import Login from './Components/Login';
+import HangmanGame from './Components/Ahorcado';
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
          
         <Route path="/" element={<PTrivia count={count} setCount={setCount} />} />
         <Route path="/login" element={<Login />} /> {/* <-- Agrega esta ruta */}
-
+        <Route path="/hangman" element={<HangmanGame />} />
         </Routes>
       </div>
     </BrowserRouter>
