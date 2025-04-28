@@ -1,9 +1,9 @@
 /* CTrivia.css */
-
 .trivia-container {
   background-image: url('../IMG/Fondo.jpg');
   background-size: cover;
-  background-position: center bottom; 
+  background-position: center bottom;
+  
   position: fixed;
   top: 0;
   left: 0;
@@ -26,16 +26,17 @@
   border-radius: 20px;
   padding: 2rem;
   width: 90%;
-  max-width: 450px; 
+  max-width: 450px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.game-logo {
-  max-width: 400px; 
+.logo {
+  max-width: 450px; /* Aumentado de 400px como solicitaste */
+  width: 100%;
   margin-bottom: 1rem;
 }
 
-.game-title {
+.title {
   font-size: 2.5rem;
   color: #333;
   text-align: center;
@@ -43,25 +44,26 @@
   font-weight: bold;
 }
 
-.buttons-wrapper {
+.button-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem; /* Espacio entre botones */
   width: 100%;
 }
 
-.game-button {
+.start-button, .login-button, .guide-button {
   padding: 1rem;
   font-size: 1.2rem;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px; /* Bordes más redondeados */
   cursor: pointer;
   width: 100%;
   transition: all 0.3s ease;
+  margin-bottom: 0.5rem; /* Espacio adicional entre botones */
 }
 
-.game-button:hover {
+.start-button:hover, .login-button:hover, .guide-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -78,21 +80,45 @@
   background-color: #FF9800;
 }
 
+/* Estilos para la sección de resultados */
+.results-container {
+  text-align: center;
+  width: 100%;
+}
+
+.results-container button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #2196F3;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.results-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-height: 600px) {
   .trivia-content {
     padding: 1.5rem;
   }
   
-  .game-logo {
-    max-width: 100px;
+  .logo {
+    max-width: 150px;
   }
   
-  .game-title {
+  .title {
     font-size: 2rem;
     margin-bottom: 1.5rem;
   }
   
-  .game-button {
+  .start-button, .login-button, .guide-button, .results-container button {
     padding: 0.8rem;
   }
 }

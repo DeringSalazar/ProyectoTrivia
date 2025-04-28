@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Add this import
 import { Button, Form, Card, Spinner, Alert } from 'react-bootstrap';
 import '../styles/CHome.css';
 
@@ -54,14 +54,12 @@ const commonTranslations = {
   }
 };
 
-function PHome({ setGameConfig, setQuestions }) {
-  const navigate = useNavigate();
+function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [language, setLanguage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [apiStatus, setApiStatus] = useState({ tested: false, working: false, message: '' });
   
   // Endpoint de LibreTranslate
   const LIBRE_TRANSLATE_ENDPOINT = 'https://translate.fedilab.app';
@@ -109,7 +107,11 @@ function PHome({ setGameConfig, setQuestions }) {
         
         setQuestions(finalQuestions);
         setGameConfig({ category, difficulty, language });
-        navigate('/game');
+        
+        // Si estamos usando React Router y tenemos una función de navegación
+        if (navigateToGame) {
+          navigateToGame();
+        }
       } else {
         setError('No se pudieron cargar las preguntas. Por favor, intenta con otra configuración.');
       }
@@ -349,9 +351,11 @@ function PHome({ setGameConfig, setQuestions }) {
               )}
             </Button>
             {!user && (
-              <div className="login-prompt">
-                <p>¿Quieres guardar tus estadísticas?</p>
-                <Link to="/login" className="login-button">Iniciar Sesión</Link>
+              <div className="login-prompt mt-3">
+                <p className="mb-2 text-center">¿Quieres guardar tus estadísticas?</p>
+                <div className="d-grid">
+                  <Link to="/login" className="btn btn-outline-primary">Iniciar Sesión</Link>
+                </div>
               </div>
             )}
           </div>

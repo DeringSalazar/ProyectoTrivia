@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import '../styles/CTrivia.css';
-import logoImg from '../IMG/Brain.png'; 
+import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
+import Game from '../Components/Game';  
 
 function PTrivia({ onShowGuide, onLogin }) {
   const [gameConfig, setGameConfig] = useState({
     category: '',
     difficulty: '',
+    language: '',
   });
   const [questions, setQuestions] = useState([]);
   const [gameStats, setGameStats] = useState({
@@ -15,53 +17,64 @@ function PTrivia({ onShowGuide, onLogin }) {
     percentage: 0,
   });
   const [user, setUser] = useState(null);
-  const [showHome, setShowHome] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState('welcome'); // welcome, home, game
   
   // Función para manejar el inicio del juego
   const handleStartGame = () => {
-    setShowHome(true);
+    setCurrentScreen('home');
+  };
+
+  // Función para navegar al juego (se pasa a PHome)
+  const navigateToGame = () => {
+    setCurrentScreen('game');
   };
   
   return (
     <div className="trivia-container">
       <div className="trivia-content">
-        {!showHome && (
+        {currentScreen === 'welcome' && (
           <>
-            <img
-              src={logoImg}
-              alt="Logo del juego"
-              className="game-logo"
-            />
-            <h1 className="game-title">Brain Brawl</h1>
+            <img src={logoImg} alt="Brain Brawl Logo" className="logo" />
+            <h1 className="title">Brain Brawl</h1>
+            
+            <div className="button-container">
+              <button className="start-button" onClick={handleStartGame}>
+                Iniciar Juego
+              </button>
+              <button className="login-button" onClick={onLogin}>
+                Iniciar Sesión
+              </button>
+              <button className="guide-button" onClick={onShowGuide}>
+                Guía del Juego
+              </button>
+            </div>
           </>
         )}
         
-        {showHome ? (
-          <PHome
+        {currentScreen === 'home' && (
+          <PHome 
             setGameConfig={setGameConfig}
             setQuestions={setQuestions}
             user={user}
+            navigateToGame={navigateToGame}
           />
-        ) : (
-          <div className="buttons-wrapper">
-            <button
-              className="game-button start-button"
-              onClick={handleStartGame}
-            >
-              Iniciar Juego
-            </button>
-            <button
-              className="game-button login-button"
-              onClick={onLogin}
-            >
-              Iniciar Sesión
-            </button>
-            <button
-              className="game-button guide-button"
-              onClick={onShowGuide}
-            >
-              Guía del Juego
-            </button>
+        )}
+
+        {currentScreen === 'game' && (
+          <Game 
+            questions={questions}
+            gameConfig={gameConfig}
+            setGameStats={setGameStats}
+            onEndGame={() => setCurrentScreen('results')}
+          />
+        )}
+
+        {currentScreen === 'results' && (
+          <div className="results-container">
+            <h2>Resultados del juego</h2>
+            <p>Respuestas correctas: {gameStats.correctAnswers} de {gameStats.totalQuestions}</p>
+            <p>Porcentaje: {gameStats.percentage}%</p>
+            <button onClick={() => setCurrentScreen('welcome')}>Volver al inicio</button>
           </div>
         )}
       </div>
