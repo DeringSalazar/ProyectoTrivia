@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // <-- Agregado
+import { useNavigate } from 'react-router-dom';
 import '../styles/CTrivia.css';
 import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
@@ -21,7 +21,7 @@ function PTrivia({ onShowGuide, onLogin }) {
   const [user, setUser] = useState(null);
   const [currentScreen, setCurrentScreen] = useState('welcome'); // welcome, home, game, login, results
 
-  const navigate = useNavigate(); // <-- Agregado
+  const navigate = useNavigate();
 
   // Función para manejar el inicio del juego principal
   const handleStartGame = () => {
@@ -39,7 +39,18 @@ function PTrivia({ onShowGuide, onLogin }) {
 
   // Función para jugar ahorcado
   const handlePlayHangman = () => {
-    navigate('/hangman'); // Redirige a la página del ahorcado
+    navigate('/hangman');
+  };
+
+  // Función para manejar el éxito del login
+  const handleLoginSuccess = (userData) => {
+    if (userData) {
+      setUser(userData);
+      setCurrentScreen('home'); // Redirecciona a PHome después de login exitoso
+    } else {
+      // Si userData es null, volvemos a la pantalla de bienvenida
+      setCurrentScreen('welcome');
+    }
   };
 
   return (
@@ -54,7 +65,7 @@ function PTrivia({ onShowGuide, onLogin }) {
               <button className="start-button" onClick={handleStartGame}>
                 Iniciar Juego
               </button>
-              <button className="login-button" onClick={onLogin}>
+              <button className="login-button" onClick={navigateToLogin}>
                 Iniciar Sesión
               </button>
               
@@ -84,7 +95,10 @@ function PTrivia({ onShowGuide, onLogin }) {
         )}
 
         {currentScreen === 'login' && (
-          <Login setUser={setUser} />
+          <Login 
+            setUser={setUser} 
+            onLoginSuccess={handleLoginSuccess} 
+          />
         )}
 
         {currentScreen === 'results' && (
@@ -102,4 +116,4 @@ function PTrivia({ onShowGuide, onLogin }) {
   );
 }
 
-export default PTrivia;
+export default PTrivia;

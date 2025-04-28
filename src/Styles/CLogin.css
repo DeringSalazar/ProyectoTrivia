@@ -1,0 +1,81 @@
+/* Estilos generales para el Card */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+  }
+  
+  /* Estilos para el título del Card */
+  .card-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #000000;
+  }
+  
+  /* Estilos para el texto principal */
+  .card p {
+    font-size: 1rem;  
+    color: #000000;  
+  }
+  
+  /* Estilos para los botones */
+  button {
+    font-size: 1.1rem;  
+    padding: 12px; 
+    font-weight: 700;  
+    border-radius: 5px;  
+  }
+  
+  /* Estilo específico para el botón de Google */
+  button.btn-outline-danger {
+    border: 2px solid #ea4335;
+    color: #ea4335;
+  }
+  
+  /* Fondo rojo al pasar el mouse */
+  button.btn-outline-danger:hover {
+    background-color: #ea4335;
+    color: white;
+  }
+  
+  /* Estilo específico para el botón de Facebook */
+  button.btn-outline-primary {
+    border: 2px solid #1877f2;
+    color: #1877f2;
+  }
+  
+  button.btn-outline-primary:hover { /* Fondo azul al pasar el mouse de facebook */
+    background-color: #1877f2;
+    color: white;
+  }
+  
+  /* Estilo para el botón de "Volver sin iniciar sesión" */
+  button.btn-link {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  button.btn-link:hover {
+    text-decoration: underline;
+  }
+  
+ 
+  button .me-2 {
+    margin-right: 10px;  
+  }
+  
+ 
+  
+  .logo-trivialogin img {
+    width: 300px; 
+    height: auto;
+    margin-bottom: 15px;
+  }
+  
+  

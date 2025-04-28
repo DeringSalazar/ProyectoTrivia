@@ -4,34 +4,51 @@ import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPass
 import { auth, googleProvider, facebookProvider } from '../firebase';
 import PLogin from '../Pages/PLogin';
 
-function Login() {
+function Login({ setUser: setUserProp, onLoginSuccess }) {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null); // Agregado el estado user
+  const [user, setUserState] = useState(null);
 
-  const defaultPhotoURL = 'ruta/a/imagen/default.jpg'; 
-
+  const defaultPhotoURL = 'ruta/a/imagen/default.jpg';
+  
   const getUserPhotoURL = (user) => {
     return user.photoURL || defaultPhotoURL;
+  };
+
+  const updateUser = (userData) => {
+    setUserState(userData);
+    
+
+    if (setUserProp) {
+      setUserProp(userData);
+    }
+    
+    if (onLoginSuccess) {
+      
+      onLoginSuccess(userData);
+    } else {
+      
+      navigate('/');
+    }
   };
 
   const loginWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user); 
-
-      setUser({
+      const userPhotoURL = getUserPhotoURL(user);
+      
+      const userData = {
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
         photoURL: userPhotoURL,
         provider: 'google',
-      });
-
-      navigate('/');
+      };
+      
+      updateUser(userData);
     } catch (err) {
       setError('Error al iniciar sesión con Google');
       console.error(err);
@@ -42,16 +59,17 @@ function Login() {
     try {
       const result = await signInWithPopup(auth, facebookProvider);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user); 
-      setUser({
+      const userPhotoURL = getUserPhotoURL(user);
+      
+      const userData = {
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
         photoURL: userPhotoURL,
         provider: 'facebook',
-      });
-
-      navigate('/');
+      };
+      
+      updateUser(userData);
     } catch (err) {
       setError('Error al iniciar sesión con Facebook');
       console.error(err);
@@ -63,53 +81,62 @@ function Login() {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user); 
+      const userPhotoURL = getUserPhotoURL(user);
       const userDisplayName = user.displayName || user.email;
-
-      setUser({
+      
+      const userData = {
         uid: user.uid,
         displayName: userDisplayName,
         email: user.email,
-        photoURL: userPhotoURL, 
+        photoURL: userPhotoURL,
         provider: 'password',
-      });
-
-      navigate('/');
+      };
+      
+      updateUser(userData);
     } catch (err) {
       setError('Correo o contraseña inválidos');
       console.error(err);
     }
   };
 
-  // Registrar usuario con email y contraseña
   const registerWithEmailPassword = async (e) => {
     e.preventDefault();
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       const user = result.user;
-
-      const userPhotoURL = getUserPhotoURL(user); 
+      const userPhotoURL = getUserPhotoURL(user);
       const userDisplayName = user.displayName || user.email;
-
-      setUser({
+      
+      const userData = {
         uid: user.uid,
         displayName: userDisplayName,
         email: user.email,
         photoURL: userPhotoURL,
         provider: 'password',
-      });
-
-      navigate('/');
+      };
+      
+      updateUser(userData);
     } catch (err) {
       setError('Error al registrar usuario: Ya existe esta cuenta');
       console.error(err);
     }
   };
 
+  
+  const navigateBack = () => {
+    if (onLoginSuccess) {
+     
+      onLoginSuccess(null); 
+    } else {
+      
+      navigate('/');
+    }
+  };
+
   return (
-    <PLogin 
-      error={error} 
-      loginWithGoogle={loginWithGoogle} 
+    <PLogin
+      error={error}
+      loginWithGoogle={loginWithGoogle}
       loginWithFacebook={loginWithFacebook}
       loginWithEmailPassword={loginWithEmailPassword}
       registerWithEmailPassword={registerWithEmailPassword}
@@ -117,9 +144,10 @@ function Login() {
       setEmail={setEmail}
       password={password}
       setPassword={setPassword}
-      user={user} // Pasamos el objeto user
+      user={user}
+      navigate={navigateBack}
     />
   );
 }
 
-export default Login;
+export default Login;

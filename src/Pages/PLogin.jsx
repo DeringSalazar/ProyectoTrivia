@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, Button, Alert, Form } from 'react-bootstrap';
-import { Google, Facebook, Envelope } from 'react-bootstrap-icons'; 
+import { Google, Facebook, Envelope } from 'react-bootstrap-icons';
 import logoImga from '../IMG/Brain.png';
-
-function PLogin({ 
-  error, 
-  loginWithGoogle, 
-  loginWithFacebook, 
+import '../Styles/CLogin.css';
+function PLogin({
+  error,
+  loginWithGoogle,
+  loginWithFacebook,
   loginWithEmailPassword,
   registerWithEmailPassword,
   email,
@@ -29,11 +29,11 @@ function PLogin({
 
           {user && user.displayName && ( // Usamos user aquí
             <div className="user-info mb-4">
-              <img 
-                src={user.photoURL || 'ruta/a/imagen/default.jpg'} 
-                alt="User" 
-                className="user-photo" 
-                style={{ width: '50px', height: '50px', borderRadius: '50%' }} 
+              <img
+                src={user.photoURL || 'ruta/a/imagen/default.jpg'}
+                alt="User"
+                className="user-photo"
+                style={{ width: '50px', height: '50px', borderRadius: '50%' }}
               />
               <span>{user.displayName}</span>
             </div>
@@ -41,9 +41,9 @@ function PLogin({
 
           <Form onSubmit={loginWithEmailPassword} className="mb-4">
             <Form.Group controlId="formBasicEmail" className="mb-3">
-              <Form.Control 
-                type="email" 
-                placeholder="Correo electrónico" 
+              <Form.Control
+                type="email"
+                placeholder="Correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -51,9 +51,9 @@ function PLogin({
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword" className="mb-3">
-              <Form.Control 
-                type="password" 
-                placeholder="Contraseña" 
+              <Form.Control
+                type="password"
+                placeholder="Contraseña"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -65,17 +65,17 @@ function PLogin({
               type="submit"
               className="w-100 mb-3 d-flex align-items-center justify-content-center btn-gray"
             >
-              <Envelope className="me-2" /> 
+              <Envelope className="me-2" />
               Iniciar sesión con Email
             </Button>
           </Form>
 
           <Button
-            variant="btn btn-success" 
+            variant="btn btn-success"
             onClick={registerWithEmailPassword}
             className="w-100 mb-3 d-flex align-items-center justify-content-center btn-gray"
           >
-            <Envelope className="me-2" /> 
+            <Envelope className="me-2" />
             Registrarse con Email
           </Button>
 
@@ -84,24 +84,24 @@ function PLogin({
               variant="outline-danger"
               onClick={loginWithGoogle}
               className="d-flex align-items-center justify-content-center p-2"
-              style={{ width: '50px', height: '50px' }} 
+              style={{ width: '50px', height: '50px' }}
             >
-              <Google className="m-auto" size={24} /> 
+              <Google className="m-auto" size={24} />
             </Button>
 
             <Button
               variant="outline-primary"
               onClick={loginWithFacebook}
               className="d-flex align-items-center justify-content-center p-2"
-              style={{ width: '50px', height: '50px' }} 
+              style={{ width: '50px', height: '50px' }}
             >
-              <Facebook className="m-auto" size={24} /> 
+              <Facebook className="m-auto" size={24} />
             </Button>
           </div>
 
           <Button
             variant="link"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/')} // Esto ahora usará la función navigate que proporcionas
           >
             Volver sin iniciar sesión
           </Button>
