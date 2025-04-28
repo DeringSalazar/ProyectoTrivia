@@ -1,0 +1,233 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal del juego */
+.game-container {
+    background-image: url('../IMG/Fondo.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* Asegura la organización vertical */
+}
+
+/* Encabezado del juego */
+.game-header {
+    background-color: #50a5eb;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    color: white;
+    width: 100%;
+    display: flex;
+    max-width: 700px;
+    max-height: 60px;  
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-header .d-flex {
+    background-color: #50a5eb;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 30px;
+    color: white;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question-badge {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.score-badge {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.game-logo {
+    max-width: 400px;
+    margin-bottom: 1rem;
+}
+
+.game-title {
+    font-size: 2.5rem;
+    color: black;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+/* Tiempo restante */
+.text-end small {
+    font-size: 0.8rem;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Contenedor de preguntas */
+.question-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Estilo para la pregunta */
+.question-card .mb-4 {
+    border-radius: 5px;
+    background: transparent;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de botones de respuestas */
+.d-grid {
+    display: grid;
+    gap: 15px;
+}
+
+/* Botones de respuestas */
+.answer-button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 1.2rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Efecto hover de los botones de respuestas */
+.answer-button:hover {
+    background-color: #50a5eb;
+    color: #50a5eb;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de botones principales */
+.buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 350px;
+    max-width: 90%;
+}
+
+/* Estilo de los botones */
+.game-button {
+    padding: 18px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-align: center;
+}
+
+.game-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Barra de progreso */
+.mb-2 .progress-bar {
+    height: 12px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.mb-2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    height: 12px;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.mb-2 .progress-bottom {
+    height: 8px;
+    background-color: #FF9800;
+}
+
+.mb-2 .progress-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    height: 8px;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.mb-2 .progress-top {
+    height: 8px;
+    background-color: #2196F3;
+}
+
+.mb-2 .progress-bottom {
+    height: 8px;
+    background-color: #FF9800;
+}
+
+.game .text-end {
+    align-items: center;
+}
+
+/* Asegurando que la interfaz se vea bien en pantallas pequeñas */
+
+@media (max-width: 600px) {
+    .game-logo {
+        width: 150px;
+    }
+
+    .game-title {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+    }
+
+    .buttons-wrapper {
+        gap: 15px;
+    }
+
+    .game-button {
+        padding: 15px 20px;
+        font-size: 18px;
+    }
+}
