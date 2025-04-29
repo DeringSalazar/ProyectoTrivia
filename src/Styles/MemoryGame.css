@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
 .memory-game-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  font-family: 'Luckiest Guy', cursive;
 }
 
 .card-grid {

@@ -1,9 +1,12 @@
 /* Estilos generales para el Card */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
 .card {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: 'Luckiest Guy', cursive;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

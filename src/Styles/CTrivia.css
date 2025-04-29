@@ -1,9 +1,11 @@
 /* CTrivia.css */
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
 .trivia-container {
   background-image: url('../IMG/Fondo.jpg');
   background-size: cover;
   background-position: center bottom;
-  
+  font-family: 'Luckiest Guy', cursive;
   position: fixed;
   top: 0;
   left: 0;
