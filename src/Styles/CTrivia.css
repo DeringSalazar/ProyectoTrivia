@@ -30,15 +30,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.logo {
-  max-width: 450px; /* Aumentado de 400px como solicitaste */
-  width: 100%;
-  margin-bottom: 1rem;
+.trivia-container .trivia-content .logo {
+  width: 100%; /* Hace que el logo ocupe todo el ancho disponible del contenido */
+  max-width: 300px; /* Puedes ajustar este valor si quieres un tope máximo */
+  height: auto; /* Mantiene la proporción correcta de la imagen */
+  margin-bottom: 1.5rem; /* Un poco más de separación debajo del logo */
 }
 
 .title {
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 2rem;
+  color: black;
   text-align: center;
   margin-bottom: 2rem;
   font-weight: bold;
@@ -69,7 +70,7 @@
 }
 
 .start-button {
-  background-color: #4CAF50;
+  background-color: #f34eac;
 }
 
 .login-button {
