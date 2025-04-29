@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Card from './Card';  // Importamos el componente de Carta
-import Timer from './Timer';  // Importamos el componente de Temporizador
-import GameOver from './GameOver'; // Importamos el componente de GameOver
-import '../styles/MemoryGame.module.css';
-
+import { Button } from 'react-bootstrap';
 import discord from '../IMG/discord.png';
 import facebook from '../IMG/facebook.png';
 import google_duo from '../IMG/google_duo.png';
@@ -13,125 +9,141 @@ import spotify from '../IMG/spotify.png';
 import linkedin from '../IMG/linkedin.png';
 import google from '../IMG/google.png';
 import messenger from '../IMG/messenger.png';
-import netflix from '../IMG/netflix.png';
+import netflix from '../IMG/netflix.png'; 
 import Brain from '../IMG/Brain.png';
+import '../Styles/MemoryGame.css';
+import Timer from './TimerMemory.jsx';
 
 const images = [
-  { id: 1, img: discord, alt: ' ', bgImage: Brain },
-  { id: 2, img: facebook, alt: ' ', bgImage: Brain },
-  { id: 3, img: google_duo, alt: '  ', bgImage: Brain },
-  { id: 4, img: instagram, alt: ' ', bgImage: Brain },
-  { id: 5, img: linkedin, alt: ' ', bgImage: Brain },
-  { id: 6, img: spotify, alt: ' ', bgImage: Brain },
-  { id: 7, img: whatsapp, alt: ' ', bgImage: Brain },
-  { id: 8, img: messenger, alt: ' ', bgImage: Brain },
-  { id: 9, img: google, alt: ' ', bgImage: Brain },
-  { id: 10, img: netflix, alt: ' ', bgImage: Brain },
+  { src: discord, name: 'discord' },
+  { src: facebook, name: 'facebook' },
+  { src: google_duo, name: 'google_duo' },
+  { src: instagram, name: 'instagram' },
+  { src: whatsapp, name: 'whatsapp' },
+  { src: spotify, name: 'spotify' },
+  { src: linkedin, name: 'linkedin' },
+  { src: google, name: 'google' },
+  { src: messenger, name: 'messenger' },
+  { src: netflix, name: 'netflix' },
 ];
 
-
-const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
-
-const MemoryGame = () => {
+function MemoryGame() {
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
+  const [moves, setMoves] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(60);
-  const [timer, setTimer] = useState(null);
-  const [showAllCards, setShowAllCards] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [showAllCards, setShowAllCards] = useState(true); //  Mostrar todas las cartas al inicio
 
   const initializeGame = () => {
-    const shuffledCards = [...images, ...images]; 
-    setCards(shuffleArray(shuffledCards).map(card => ({ ...card, flipped: false }))); 
+    const shuffledCards = [...images, ...images]
+      .sort(() => Math.random() - 0.5)
+      .map((image, index) => ({
+        id: index,
+        src: image.src,
+        name: image.name,
+        flipped: true, 
+      }));
+
+    setCards(shuffledCards);
     setFlippedCards([]);
     setMatchedCards([]);
+    setMoves(0);
     setGameOver(false);
-    setTimeRemaining(60); 
-    clearInterval(timer); 
-    startTimer(); 
-
     setShowAllCards(true);
+
+    // Ocultar cartas después de 3 segundos
     setTimeout(() => {
+      const hiddenCards = shuffledCards.map(card => ({ ...card, flipped: false }));
+      setCards(hiddenCards);
       setShowAllCards(false);
-      setCards((prevCards) =>
-        prevCards.map(card => ({ ...card, flipped: false }))
-      );
-    }, 3000); 
-  };
-
-  const startTimer = () => {
-    const newTimer = setInterval(() => {
-      setTimeRemaining((prevTime) => {
-        if (prevTime === 1) {
-          clearInterval(newTimer);
-          setGameOver(true);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-    setTimer(newTimer);
-  };
-
-  const handleCardClick = (index) => {
-    if (flippedCards.length === 2 || flippedCards.includes(index) || gameOver || showAllCards) return;
-
-    const newFlippedCards = [...flippedCards, index];
-    setFlippedCards(newFlippedCards);
-
-    if (newFlippedCards.length === 2) {
-      const [firstCard, secondCard] = newFlippedCards;
-      if (cards[firstCard].img === cards[secondCard].img) {
-        setMatchedCards((prev) => [...prev, cards[firstCard].img]);
-      }
-      setTimeout(() => setFlippedCards([]), 1000);
-    }
+    }, 3000);
   };
 
   useEffect(() => {
-    if (matchedCards.length === images.length) {
-      setGameOver(true);
-    }
-  }, [matchedCards]);
+    initializeGame();
+  }, []);
 
-  const startGame = () => {
-    setGameStarted(true);
+  const handleCardClick = (cardIndex) => {
+    if (flippedCards.length === 2 || cards[cardIndex].flipped || gameOver || moves >= 20 || showAllCards) return;
+
+    const newCards = [...cards];
+    newCards[cardIndex].flipped = true;
+    setCards(newCards);
+
+    const newFlippedCards = [...flippedCards, cardIndex];
+    setFlippedCards(newFlippedCards);
+
+    if (newFlippedCards.length === 2) {
+      setMoves((prevMoves) => prevMoves + 1);
+      const [firstIndex, secondIndex] = newFlippedCards;
+      if (newCards[firstIndex].name === newCards[secondIndex].name) {
+        if (!matchedCards.includes(newCards[firstIndex].name)) {
+          setMatchedCards([...matchedCards, newCards[firstIndex].name]);
+        }
+        setFlippedCards([]);
+      } else {
+        setTimeout(() => {
+          newCards[firstIndex].flipped = false;
+          newCards[secondIndex].flipped = false;
+          setCards([...newCards]);
+          setFlippedCards([]);
+        }, 1000);
+      }
+    }
+  };
+
+  const handleTimeUp = () => {
+    setGameOver(true);
+  };
+
+  const handleRestart = () => {
     initializeGame();
   };
 
   return (
-    <div>
-      {!gameStarted ? (
-        <div className="start-screen">
-          <h1>¡Bienvenido al Memory Game!</h1>
-          <button onClick={startGame} className="start-button">
-            Iniciar Juego
-          </button>
-        </div>
-      ) : (
-        <>
-          <h1>MemoryGame</h1>
-          <Timer timeRemaining={timeRemaining} />
-          <GameOver gameOver={gameOver} timeRemaining={timeRemaining} initializeGame={initializeGame} />
-          <div className="grid-container">
-            {cards.map((card, index) => (
-              <Card 
-                key={index} 
-                index={index}
-                card={card}
-                flippedCards={flippedCards}
-                matchedCards={matchedCards}
-                showAllCards={showAllCards}
-                handleCardClick={handleCardClick}
-              />
-            ))}
+    <div className="memory-game-container text-center">
+      <h2 className="mb-4">Juego de Memoria 🧠</h2>
+
+      {!gameOver && <Timer onTimeUp={handleTimeUp} gameActive={!gameOver && !showAllCards} />}
+
+      <div>
+        <h5 className="move-counter">Movimientos: {moves}</h5>
+        {moves >= 20 && !gameOver && (
+          <div className="move-limit-message alert alert-danger mt-3">
+            ¡Perdiste! Has superado el límite de 20 movimientos.
           </div>
-        </>
-      )}
+        )}
+      </div>
+
+      <div className="card-grid">
+        {cards.map((card, index) => (
+          <div
+            key={card.id}
+            className={`card-item ${card.flipped ? 'card-flipped' : ''}`}
+            onClick={() => handleCardClick(index)}
+          >
+            {card.flipped || matchedCards.includes(card.name) ? (
+              <img src={card.src} alt={card.name} className="card-image" />
+            ) : (
+              <img src={Brain} alt="Brain" className="card-image" />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4">
+        {matchedCards.length === images.length && !gameOver && (
+          <div className="win-message alert alert-success mt-3">
+            ¡Ganaste el juego en {moves} movimientos!
+          </div>
+        )}
+        <Button className="restart-button mt-3" onClick={handleRestart}>
+          Reiniciar Juego
+        </Button>
+      </div>
     </div>
   );
-};
+}
 
 export default MemoryGame;
