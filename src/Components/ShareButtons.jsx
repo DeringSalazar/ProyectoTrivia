@@ -30,7 +30,7 @@ function ShareButtons({ gameStats }) {
     <div className="share-section mb-4">
       <p className="mb-3">¡Comparte tu puntuación!</p>
       <div className="d-flex justify-content-center gap-2">
-        <Button variant="primary" onClick={() => shareScore('facebook')}>
+        <Button variant="face" onClick={() => shareScore('facebook')}>
           <Facebook className="me-1" /> Facebook
         </Button>
         <Button variant="info" onClick={() => shareScore('twitter')}>

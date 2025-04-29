@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import ResultSummary from '../Components/ResultSummary';
 import ShareButtons from '../Components/ShareButtons';
 import LoginPrompt from '../Components/LoginPrompt';
+import '../Styles/CResults.css';
 
 function PResults({ gameStats, user, onPlayAgain }) {
   // Verificar que gameStats existe y tiene los datos necesarios
