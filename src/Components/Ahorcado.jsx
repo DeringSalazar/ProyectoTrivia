@@ -1,8 +1,8 @@
 // HangmanGame.jsx
 import React, { useState, useEffect } from "react";
-
 import '../Styles/Ahorcado.css';
 import logoImg from '../IMG/Brain.png';
+import { useNavigate } from 'react-router-dom';
 
 const spanishWords = [
   "GATO", "PERRO", "CABALLO", "ELEFANTE", "TIGRE", "VACA", "LEON", "PATO", "CIELO",
@@ -27,6 +27,7 @@ const spanishWords = [
 ];
 
 function HangmanGame() {
+  const navigate = useNavigate();
   const [selectedWord, setSelectedWord] = useState("");
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [mistakes, setMistakes] = useState(0);
@@ -203,13 +204,10 @@ function HangmanGame() {
     return letters;
   };
 
-
-
   return (
     <div>
       <div className="logo-trivia">
-        <img src={logoImg} alt="Cerebro"  />
-        
+        <img src={logoImg} alt="Cerebro" />
       </div>
 
       <div id="game">
@@ -221,8 +219,11 @@ function HangmanGame() {
         <div id="attempts">
           Intentos: {mistakes}/{maxMistakes}
         </div>
-        <button id="restartBtn" onClick={startGame}>
+        <button id="restartGameBtn" onClick={startGame}>
           Nuevo Juego
+        </button>
+        <button id="goBackBtn" onClick={() => navigate('/')}>
+          Regresar
         </button>
       </div>
     </div>
@@ -230,4 +231,3 @@ function HangmanGame() {
 }
 
 export default HangmanGame;
-
