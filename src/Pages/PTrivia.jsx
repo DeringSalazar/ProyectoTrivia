@@ -62,7 +62,12 @@ function PTrivia({ onShowGuide, onLogin }) {
           <>
             <img src={logoImg} alt="Brain Brawl Logo" className="logo" />
             <h1 className="title">Brain Brawl</h1>
-            
+            {user && (
+            <div className="user-info">
+              <img src={user.photoURL} alt="User" className="avatar rounded-circle" width="40" />
+              <span className="ms-2">{user.displayName}</span>
+            </div>
+          )}
             <div className="button-container">
               <button className="start-button" onClick={handleStartGame}>
                 Iniciar Juego
