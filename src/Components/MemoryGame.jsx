@@ -4,17 +4,29 @@ import Timer from './TimerMemory';  // Importamos el componente de Temporizador
 import GameOver from './GameOver'; // Importamos el componente de GameOver
 import '../styles/MemoryGame.css';
 
+import discord from '../IMG/discord.png';
+import facebook from '../IMG/facebook.png';
+import google_duo from '../IMG/google_duo.png';
+import instagram from '../IMG/instagram.png';
+import whatsapp from '../IMG/whatsapp.png';
+import spotify from '../IMG/spotify.png'; 
+import linkedin from '../IMG/linkedin.png';
+import google from '../IMG/google.png';
+import messenger from '../IMG/messenger.png';
+import netflix from '../IMG/netflix.png';
+import Brain from '../IMG/Brain.png';
+
 const images = [
-  { id: 1, img: 'discord.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 2, img: 'facebook.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 3, img: 'google_duo.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 4, img: 'instagram.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 5, img: 'linkedin.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 6, img: 'spotify.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 7, img: 'whatsapp.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 8, img: 'messenger.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 9, img: 'google.png', alt: ' ', bgImage: 'Brain.png' },
-  { id: 10, img: 'netflix.png', alt: ' ', bgImage: 'Brain.png' },
+  { id: 1, img: discord, alt: ' ', bgImage: Brain },
+  { id: 2, img: facebook, alt: ' ', bgImage: Brain },
+  { id: 3, img: google_duo, alt: '  ', bgImage: Brain },
+  { id: 4, img: instagram, alt: ' ', bgImage: Brain },
+  { id: 5, img: linkedin, alt: ' ', bgImage: Brain },
+  { id: 6, img: spotify, alt: ' ', bgImage: Brain },
+  { id: 7, img: whatsapp, alt: ' ', bgImage: Brain },
+  { id: 8, img: messenger, alt: ' ', bgImage: Brain },
+  { id: 9, img: google, alt: ' ', bgImage: Brain },
+  { id: 10, img: netflix, alt: ' ', bgImage: Brain },
 ];
 
 const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);

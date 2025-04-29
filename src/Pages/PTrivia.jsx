@@ -43,6 +43,10 @@ function PTrivia({ onShowGuide, onLogin }) {
     navigate('/hangman'); // Redirige a la página del ahorcado
   };
 
+  const handplayMemory = () => {
+    navigate('/memory'); // Redirige a la página del juego de memoria
+  }
+
   // Función para finalizar el juego y mostrar resultados
   const handleEndGame = (stats) => {
     console.log("Juego terminado, resultados:", stats);
@@ -78,6 +82,10 @@ function PTrivia({ onShowGuide, onLogin }) {
               
               <button className="guide-button" onClick={handlePlayHangman}>
                 Juego Ahorcado
+              </button>
+
+              <button className="guide-button" onClick={handplayMemory}>
+                Juego Memoria
               </button>
             </div>
           </>
