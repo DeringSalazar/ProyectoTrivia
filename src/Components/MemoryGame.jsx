@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';  // Importamos el componente de Carta
-import Timer from './Timer';  // Importamos el componente de Temporizador
+import Timer from './TimerMemory';  // Importamos el componente de Temporizador
 import GameOver from './GameOver'; // Importamos el componente de GameOver
 import '../styles/MemoryGame.css';
 
