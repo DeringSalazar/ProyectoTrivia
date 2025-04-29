@@ -60,54 +60,54 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   const [language, setLanguage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   // Endpoint de LibreTranslate
   const LIBRE_TRANSLATE_ENDPOINT = 'https://translate.fedilab.app';
-  
+
   const fetchQuestions = async () => {
     setLoading(true);
     setError('');
-    
+
     try {
       // Obtener preguntas de Open Trivia Database
       const response = await fetch(
         `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
       );
-      
+
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      
+
       if (data.response_code === 0) {
         // Procesar preguntas y añadir array de respuestas
         const processedQuestions = data.results.map(q => ({
           ...q,
           all_answers: [q.correct_answer, ...q.incorrect_answers].sort(() => Math.random() - 0.5)
         }));
-        
+
         // Solo traducir si el idioma no es inglés
         let finalQuestions = processedQuestions;
-        
+
         if (language !== 'en') {
           console.log(`Intentando traducir preguntas al: ${language}`);
-          
+
           try {
             // Usar LibreTranslate para traducción
             finalQuestions = await translateAllQuestionsLibre(processedQuestions, language);
           } catch (translationError) {
             console.error("Error traduciendo preguntas:", translationError);
-            
+
             // Si falla la traducción, usar método de respaldo
             setError("Error al traducir con LibreTranslate. Utilizando método de respaldo.");
             finalQuestions = applyBackupTranslation(processedQuestions, language);
           }
         }
-        
+
         setQuestions(finalQuestions);
         setGameConfig({ category, difficulty, language });
-        
+
         // Si estamos usando React Router y tenemos una función de navegación
         if (navigateToGame) {
           navigateToGame();
@@ -122,11 +122,11 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
       setLoading(false);
     }
   };
-  
+
   // Traducción con LibreTranslate
   const translateAllQuestionsLibre = async (questions, targetLanguage) => {
     const translatedQuestions = [];
-    
+
     for (const question of questions) {
       try {
         // Preparar todos los textos que necesitamos traducir
@@ -135,29 +135,29 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
           question.correct_answer,
           ...question.incorrect_answers
         ];
-        
+
         // Traducir todos los textos en paralelo
         const translatedTexts = await Promise.all(
           textsToTranslate.map(text => translateTextLibre(text, targetLanguage))
         );
-        
+
         // Extraer los resultados traducidos
         const [translatedQuestion, translatedCorrectAnswer, ...translatedIncorrectAnswers] = translatedTexts;
-        
+
         // Crear array de todas las respuestas traducidas y mezclarlas
         const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
           .sort(() => Math.random() - 0.5);
-        
+
         // Validar que todas las traducciones estén presentes
-        const validTranslation = translatedQuestion && translatedCorrectAnswer && 
-                                translatedIncorrectAnswers.every(answer => answer);
-        
+        const validTranslation = translatedQuestion && translatedCorrectAnswer &&
+          translatedIncorrectAnswers.every(answer => answer);
+
         if (!validTranslation) {
           console.warn('Algunas traducciones no fueron exitosas, usando texto original para esta pregunta');
           translatedQuestions.push(question);
           continue;
         }
-        
+
         // Agregar la pregunta traducida al array de resultados
         translatedQuestions.push({
           ...question,
@@ -168,44 +168,44 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
           translated: true,
           targetLanguage
         });
-        
+
       } catch (error) {
         console.error('Error traduciendo una pregunta:', error);
         // Si falla la traducción de una pregunta, añadimos la original
         translatedQuestions.push(question);
       }
     }
-    
+
     return translatedQuestions;
   };
-  
+
   // Función de respaldo basada en reemplazos básicos
   const applyBackupTranslation = (questions, targetLanguage) => {
     if (!commonTranslations[targetLanguage]) {
       return questions; // Devolver preguntas originales si no tenemos traducciones para ese idioma
     }
-    
+
     return questions.map(question => {
       try {
         // Aplicar traducciones básicas a la pregunta
         let translatedQuestion = question.question;
         let translatedCorrectAnswer = question.correct_answer;
         let translatedIncorrectAnswers = [...question.incorrect_answers];
-        
+
         // Reemplazar palabras comunes usando el diccionario
         Object.entries(commonTranslations[targetLanguage]).forEach(([original, translated]) => {
           const regex = new RegExp(`\\b${original}\\b`, 'gi');
           translatedQuestion = translatedQuestion.replace(regex, translated);
           translatedCorrectAnswer = translatedCorrectAnswer.replace(regex, translated);
-          translatedIncorrectAnswers = translatedIncorrectAnswers.map(answer => 
+          translatedIncorrectAnswers = translatedIncorrectAnswers.map(answer =>
             answer.replace(regex, translated)
           );
         });
-        
+
         // Crear todas las respuestas mezcladas
         const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
           .sort(() => Math.random() - 0.5);
-        
+
         return {
           ...question,
           question: translatedQuestion,
@@ -229,13 +229,13 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
       if (!text || text.trim() === '') {
         return text;
       }
-      
+
       const formData = new URLSearchParams();
       formData.append('q', text);
       formData.append('source', 'en');
       formData.append('target', targetLanguage);
       formData.append('format', 'text');
-      
+
       const response = await fetch(`${LIBRE_TRANSLATE_ENDPOINT}/translate`, {
         method: 'POST',
         headers: {
@@ -243,13 +243,13 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
         },
         body: formData
       });
-      
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-      
+
       const result = await response.json();
-      
+
       if (result && result.translatedText) {
         return result.translatedText;
       } else {
@@ -267,25 +267,34 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
       setError('Por favor, selecciona una categoría, una dificultad y un idioma.');
       return;
     }
-    
+
     fetchQuestions();
   };
 
   return (
     // Agregar contenedor general para el fondo
     <div className={styles.quizContainer}>
+      <header className={styles.headerBrain}>
+        <h1 className="display-4">Brain Brawl</h1>
+      </header>
+      {user && (
+        <div className={styles.userInfo}>
+          <img src={user.photoURL} alt="User" className="avatar rounded-circle" width="40" />
+          <span className="ms-2">{user.displayName}</span>
+        </div>
+      )}
       <Card className={styles.cardShadow}>
         <Card.Body className={styles.cardBody}>
           <Card.Title className={styles.cardTitle}>Configura tu Juego</Card.Title>
-          
+
           {error && <Alert variant="danger" className={styles.alertDanger}>{error}</Alert>}
-          
+
           <Form onSubmit={handleSubmit}>
-            <Form.Group className={styles.formGroup} style={{"--animation-order": 1}}>
+            <Form.Group className={styles.formGroup} style={{ "--animation-order": 1 }}>
               <Form.Label className={styles.formLabel}>Categoría</Form.Label>
-              <Form.Select 
+              <Form.Select
                 className={styles.formSelect}
-                value={category} 
+                value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 disabled={loading}
               >
@@ -298,11 +307,11 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className={styles.formGroup} style={{"--animation-order": 2}}>
+            <Form.Group className={styles.formGroup} style={{ "--animation-order": 2 }}>
               <Form.Label className={styles.formLabel}>Dificultad</Form.Label>
-              <Form.Select 
+              <Form.Select
                 className={styles.formSelect}
-                value={difficulty} 
+                value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
                 disabled={loading}
               >
@@ -315,7 +324,7 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className={styles.formGroup} style={{"--animation-order": 3}}>
+            <Form.Group className={styles.formGroup} style={{ "--animation-order": 3 }}>
               <Form.Label className={styles.formLabel}>Idioma</Form.Label>
               <Form.Select
                 className={styles.formSelect}
@@ -333,9 +342,9 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
             </Form.Group>
 
             <div className="d-grid">
-              <Button 
-                variant="primary" 
-                type="submit" 
+              <Button
+                variant="primary"
+                type="submit"
                 disabled={loading}
                 className={styles.btnPrimary}
               >
@@ -355,16 +364,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
                   'Comenzar Juego'
                 )}
               </Button>
-              {!user && (
-                <div className={styles.loginPrompt}>
-                  <p className="mb-2">¿Quieres guardar tus estadísticas?</p>
-                  <div className="d-grid">
-                    <Link to="/login" className={`btn ${styles.btnOutline}`}>
-                      Iniciar Sesión
-                    </Link>
-                  </div>
-                </div>
-              )}
             </div>
           </Form>
         </Card.Body>

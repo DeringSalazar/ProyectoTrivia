@@ -3,8 +3,8 @@
 /* Estilos generales y variables */
 :root {
   /* Paleta de colores actualizada más armoniosa */
-  --primary-color: #6366F1;
-  --secondary-color: #8B5CF6;
+  --primary-color: #a70000;
+  --secondary-color: #000000;
   --accent-color: #EC4899;
   --text-color: #1F2937;
   --light-bg: #F9FAFB;
@@ -27,6 +27,89 @@ body {
   padding: 15px 5px; 
   box-sizing: border-box;
   color: var(--text-color);
+  height: 100vh;
+  overflow-y: auto;
+  /* Aseguramos que el contenido no esté recortado */
+  margin: 0;
+}
+
+.headerBrain {
+  width: 80%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerBrain {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #8B0000;
+  text-align: center;
+  margin: 0;
+  padding: 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Arial', sans-serif;
+}
+
+/* Información del usuario */
+.userInfo {
+  display: flex;
+  flex-direction: column; /* Cambiado a columna para que el nombre quede debajo */
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  transition: all 0.3s ease;
+  margin-top: -10px; /* Para acercarlo al título del juego */
+  max-width: 150px; /* Ancho máximo más pequeño */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.userInfo:hover {
+  transform: translateY(-1px);
+}
+
+/* Avatar del usuario */
+.userInfo img {
+  width: 30px; /* Tamaño más pequeño */
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+}
+
+/* Nombre del usuario */
+.userInfo span {
+  font-weight: 500;
+  font-size: 1rem; /* Tamaño de fuente más pequeño */
+  color: rgb(0, 0, 0);
+  margin-top: 0.2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .headerBrain {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .headerBrain h1 {
+    font-size: 1.8rem;
+  }
+  
+  .userInfo {
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .userInfo img {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .userInfo span {
+    font-size: 0.7rem;
+  }
 }
 
 /* Estilos para la nube en el botón */
@@ -72,8 +155,9 @@ body {
   }
 }
 
-/* Eliminar apariencia de card para un diseño más integrado */
+/* MODIFICADO: Hacemos que cardShadow sea invisible pero mantenga su estructura */
 .cardShadow {
+  visibility: hidden; /* Oculta visualmente pero mantiene el espacio */
   border-radius: var(--border-radius);
   background: transparent;
   border: none;
@@ -83,7 +167,12 @@ body {
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
-  max-height: 90vh; /* Aumentar altura máxima para mostrar todo el contenido */
+  max-height: 90vh;
+}
+
+/* AÑADIDO: Aseguramos que el contenido dentro de cardShadow sí sea visible */
+.cardShadow > * {
+  visibility: visible;
 }
 
 .cardBody {
@@ -106,7 +195,7 @@ body {
   letter-spacing: -0.5px;
 }
 
-/* MODIFICADO: Estilizar Form Groups - eliminando fondos y reduciendo espacio */
+/* MODIFICADO: Estilizar Form Groups - asegurando que se vean los bordes */
 .formGroup {
   margin-bottom: 0.5rem !important; /* Reducido de 1rem */
   position: relative;
@@ -114,7 +203,7 @@ body {
   border-radius: var(--border-radius);
   background: transparent; /* Eliminado el fondo */
   box-shadow: none; /* Eliminado el shadow */
-  border: none; /* Eliminado el borde */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Añadido borde sutil */
   transition: all 0.3s ease;
 }
 
@@ -329,6 +418,11 @@ body {
   flex-direction: column; /* Cambiado para acomodar todo verticalmente */
   justify-content: center;
   align-items: center;
+  max-width: 90vh;
+  /* AÑADIDO: Aseguramos que se vean los bordes superior e inferior */
+  border-top: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+  padding: 20px 0;
 }
 
 /* MODIFICADO: Estilo para el prompt de inicio de sesión - más compacto */
@@ -338,7 +432,8 @@ body {
   padding: 0.5rem; /* Reducido de 1rem */
   background: transparent; /* Eliminado el fondo */
   border-radius: var(--border-radius);
-  border: none; /* Eliminado el borde */
+  /* AÑADIDO: Aseguramos que se vea el borde */
+  border: 1px solid var(--primary-color);
   font-size: 0.9rem; /* Texto más pequeño */
 }
 
