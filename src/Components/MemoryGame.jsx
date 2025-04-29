@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';  // Importamos el componente de Carta
-import Timer from './TimerMemory';  // Importamos el componente de Temporizador
+import Timer from './Timer';  // Importamos el componente de Temporizador
 import GameOver from './GameOver'; // Importamos el componente de GameOver
-import '../styles/MemoryGame.css';
+import '../styles/MemoryGame.module.css';
 
 import discord from '../IMG/discord.png';
 import facebook from '../IMG/facebook.png';
@@ -28,6 +28,7 @@ const images = [
   { id: 9, img: google, alt: ' ', bgImage: Brain },
   { id: 10, img: netflix, alt: ' ', bgImage: Brain },
 ];
+
 
 const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
