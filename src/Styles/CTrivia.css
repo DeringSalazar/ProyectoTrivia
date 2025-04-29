@@ -52,7 +52,7 @@
   width: 100%;
 }
 
-.start-button, .login-button, .guide-button {
+.start-button, .login-button, .hangman-button, .memory-button{
   padding: 1rem;
   font-size: 1.2rem;
   color: white;
@@ -64,7 +64,7 @@
   margin-bottom: 0.5rem; /* Espacio adicional entre botones */
 }
 
-.start-button:hover, .login-button:hover, .guide-button:hover {
+.start-button:hover, .login-button:hover, .hangman-button:hover, .memory-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -77,8 +77,12 @@
   background-color: #2196F3;
 }
 
-.guide-button {
+.hangman-button {
   background-color: #FF9800;
+}
+
+.memory-button {
+  background-color: purple;
 }
 
 /* Estilos para la sección de resultados */
@@ -119,7 +123,7 @@
     margin-bottom: 1.5rem;
   }
   
-  .start-button, .login-button, .guide-button, .results-container button {
+  .start-button, .login-button, .hangman-button, .memory-button .results-container button {
     padding: 0.8rem;
   }
 }

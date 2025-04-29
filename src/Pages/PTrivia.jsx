@@ -73,18 +73,18 @@ function PTrivia({ onShowGuide, onLogin }) {
             </div>
           )}
             <div className="button-container">
-              <button className="start-button" onClick={handleStartGame}>
-                Iniciar Juego
-              </button>
-              <button className="login-button" onClick={navigateToLogin}>
+            <button className="login-button" onClick={navigateToLogin}>
                 Iniciar Sesión
               </button>
+              <button className="start-button" onClick={handleStartGame}>
+                Juego Preguntas
+              </button>
               
-              <button className="guide-button" onClick={handlePlayHangman}>
+              <button className="hangman-button" onClick={handlePlayHangman}>
                 Juego Ahorcado
               </button>
 
-              <button className="guide-button" onClick={handplayMemory}>
+              <button className="memory-button" onClick={handplayMemory}>
                 Juego Memoria
               </button>
             </div>
