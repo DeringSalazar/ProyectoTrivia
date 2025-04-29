@@ -4,13 +4,13 @@ function TimerMemory({ onTimeUp, gameActive }) {
   const [timeLeft, setTimeLeft] = useState(60);
 
   useEffect(() => {
-    if (!gameActive) return; 
+    if (!gameActive) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timer);
-          onTimeUp(); 
+          onTimeUp();
           return 0;
         }
         return prevTime - 1;

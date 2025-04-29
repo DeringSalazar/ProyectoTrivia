@@ -5,14 +5,15 @@ import facebook from '../IMG/facebook.png';
 import google_duo from '../IMG/google_duo.png';
 import instagram from '../IMG/instagram.png';
 import whatsapp from '../IMG/whatsapp.png';
-import spotify from '../IMG/spotify.png'; 
+import spotify from '../IMG/spotify.png';
 import linkedin from '../IMG/linkedin.png';
 import google from '../IMG/google.png';
 import messenger from '../IMG/messenger.png';
-import netflix from '../IMG/netflix.png'; 
+import netflix from '../IMG/netflix.png';
 import Brain from '../IMG/Brain.png';
 import '../Styles/MemoryGame.css';
 import Timer from './TimerMemory.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const images = [
   { src: discord, name: 'discord' },
@@ -28,12 +29,14 @@ const images = [
 ];
 
 function MemoryGame() {
+  const navigate = useNavigate();
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
   const [moves, setMoves] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [showAllCards, setShowAllCards] = useState(true); //  Mostrar todas las cartas al inicio
+  const [showAllCards, setShowAllCards] = useState(true);
+  const [timerResetKey, setTimerResetKey] = useState(0); // Para reiniciar el temporizador
 
   const initializeGame = () => {
     const shuffledCards = [...images, ...images]
@@ -42,7 +45,7 @@ function MemoryGame() {
         id: index,
         src: image.src,
         name: image.name,
-        flipped: true, 
+        flipped: true,
       }));
 
     setCards(shuffledCards);
@@ -52,7 +55,6 @@ function MemoryGame() {
     setGameOver(false);
     setShowAllCards(true);
 
-    // Ocultar cartas después de 3 segundos
     setTimeout(() => {
       const hiddenCards = shuffledCards.map(card => ({ ...card, flipped: false }));
       setCards(hiddenCards);
@@ -65,7 +67,7 @@ function MemoryGame() {
   }, []);
 
   const handleCardClick = (cardIndex) => {
-    if (flippedCards.length === 2 || cards[cardIndex].flipped || gameOver || moves >= 20 || showAllCards) return;
+    if (flippedCards.length === 2 || cards[cardIndex].flipped || gameOver || moves >= 25 || showAllCards) return;
 
     const newCards = [...cards];
     newCards[cardIndex].flipped = true;
@@ -75,7 +77,7 @@ function MemoryGame() {
     setFlippedCards(newFlippedCards);
 
     if (newFlippedCards.length === 2) {
-      setMoves((prevMoves) => prevMoves + 1);
+      setMoves(prevMoves => prevMoves + 1);
       const [firstIndex, secondIndex] = newFlippedCards;
       if (newCards[firstIndex].name === newCards[secondIndex].name) {
         if (!matchedCards.includes(newCards[firstIndex].name)) {
@@ -98,6 +100,7 @@ function MemoryGame() {
   };
 
   const handleRestart = () => {
+    setTimerResetKey(prev => prev + 1); // Reinicia el temporizador
     initializeGame();
   };
 
@@ -105,13 +108,19 @@ function MemoryGame() {
     <div className="memory-game-container text-center">
       <h2 className="mb-4">Juego de Memoria 🧠</h2>
 
-      {!gameOver && <Timer onTimeUp={handleTimeUp} gameActive={!gameOver && !showAllCards} />}
+      {!gameOver && (
+        <Timer
+          key={timerResetKey}
+          onTimeUp={handleTimeUp}
+          gameActive={!gameOver && !showAllCards}
+        />
+      )}
 
       <div>
         <h5 className="move-counter">Movimientos: {moves}</h5>
-        {moves >= 20 && !gameOver && (
+        {moves >= 25 && !gameOver && (
           <div className="move-limit-message alert alert-danger mt-3">
-            ¡Perdiste! Has superado el límite de 20 movimientos.
+            ¡Perdiste! Has superado el límite de 25 movimientos.
           </div>
         )}
       </div>
@@ -138,9 +147,8 @@ function MemoryGame() {
             ¡Ganaste el juego en {moves} movimientos!
           </div>
         )}
-        <Button className="restart-button mt-3" onClick={handleRestart}>
-          Reiniciar Juego
-        </Button>
+        <Button onClick={handleRestart} className="me-2">Reiniciar Juego</Button>
+        <Button onClick={() => navigate('/')}>Volver al inicio</Button>
       </div>
     </div>
   );
