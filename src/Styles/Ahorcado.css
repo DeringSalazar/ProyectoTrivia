@@ -87,3 +87,9 @@ button {
 #game button {
   margin: 10px;
 }
+
+button.disabled {
+  background-color: #cccccc;
+  pointer-events: none;
+  color: #888;
+}

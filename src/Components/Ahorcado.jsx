@@ -52,7 +52,7 @@ function HangmanGame() {
   const guessLetter = (letter) => {
     if (guessedLetters.includes(letter) || mistakes >= maxMistakes || isDead) return;
 
-    setGuessedLetters((prev) => [...prev, letter]);
+    setGuessedLetters(prev => [...prev, letter]);
 
     if (selectedWord.includes(letter)) {
       const allGuessed = selectedWord.split("").every(
@@ -62,7 +62,7 @@ function HangmanGame() {
         setMessage("¡Ganaste! 🎉");
       }
     } else {
-      setMistakes((prev) => {
+      setMistakes(prev => {
         const newMistakes = prev + 1;
         drawPart(newMistakes);
         if (newMistakes >= maxMistakes) {
@@ -128,7 +128,6 @@ function HangmanGame() {
     ctx.strokeStyle = "#e74c3c";
     ctx.lineWidth = 4;
 
-    // Ojos en forma de "X"
     ctx.beginPath();
     ctx.moveTo(190, 90);
     ctx.lineTo(210, 110);
@@ -136,7 +135,6 @@ function HangmanGame() {
     ctx.lineTo(190, 110);
     ctx.stroke();
 
-    // Boca triste
     ctx.beginPath();
     ctx.arc(200, 130, 10, 0, Math.PI);
     ctx.stroke();
@@ -155,25 +153,21 @@ function HangmanGame() {
     ctx.strokeStyle = "#2c3e50";
     ctx.lineWidth = 4;
 
-    // base
     ctx.beginPath();
     ctx.moveTo(50, 280);
     ctx.lineTo(250, 280);
     ctx.stroke();
 
-    // palo vertical
     ctx.beginPath();
     ctx.moveTo(100, 280);
     ctx.lineTo(100, 50);
     ctx.stroke();
 
-    // palo horizontal
     ctx.beginPath();
     ctx.moveTo(100, 50);
     ctx.lineTo(200, 50);
     ctx.stroke();
 
-    // soga
     ctx.beginPath();
     ctx.moveTo(200, 50);
     ctx.lineTo(200, 80);
@@ -196,6 +190,7 @@ function HangmanGame() {
           key={char}
           onClick={() => guessLetter(char)}
           disabled={guessedLetters.includes(char) || mistakes >= maxMistakes || isDead}
+          className={guessedLetters.includes(char) ? 'disabled' : ''}
         >
           {char}
         </button>
