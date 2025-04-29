@@ -6,7 +6,7 @@ function ShareButtons({ gameStats }) {
   const { totalQuestions, correctAnswers, percentage } = gameStats;
 
   const shareScore = (platform) => {
-    const shareText = `¡Acabo de obtener ${correctAnswers}/${totalQuestions} (${percentage}%) en Trivia Challenge!`;
+    const shareText = `¡Acabo de obtener ${correctAnswers}/${totalQuestions} (${percentage}%) en Brain Brawl!`;
     const url = window.location.origin;
     let shareUrl = "";
 
