@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 import discord from '../IMG/discord.png';
 import facebook from '../IMG/facebook.png';
 import google_duo from '../IMG/google_duo.png';
@@ -11,9 +13,10 @@ import google from '../IMG/google.png';
 import messenger from '../IMG/messenger.png';
 import netflix from '../IMG/netflix.png';
 import Brain from '../IMG/Brain.png';
+import music from '../music/music1.mp3'; 
+
 import '../Styles/MemoryGame.css';
 import Timer from './TimerMemory.jsx';
-import { useNavigate } from 'react-router-dom';
 
 const images = [
   { src: discord, name: 'discord' },
@@ -36,7 +39,9 @@ function MemoryGame() {
   const [moves, setMoves] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [showAllCards, setShowAllCards] = useState(true);
-  const [timerResetKey, setTimerResetKey] = useState(0); 
+  const [timerResetKey, setTimerResetKey] = useState(0);
+
+  const audioRef = useRef(null); 
 
   const initializeGame = () => {
     const shuffledCards = [...images, ...images]
@@ -64,6 +69,9 @@ function MemoryGame() {
 
   useEffect(() => {
     initializeGame();
+    if (audioRef.current) {
+      audioRef.current.play(); 
+    }
   }, []);
 
   const handleCardClick = (cardIndex) => {
@@ -100,8 +108,20 @@ function MemoryGame() {
   };
 
   const handleRestart = () => {
-    setTimerResetKey(prev => prev + 1); // Reinicia el temporizador
+    setTimerResetKey(prev => prev + 1);
     initializeGame();
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0; 
+      audioRef.current.play(); 
+    }
+  };
+
+  const toggleMusic = () => { 
+    if (audioRef.current.paused) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
   };
 
   return (
@@ -147,9 +167,14 @@ function MemoryGame() {
             ¡Ganaste el juego en {moves} movimientos!
           </div>
         )}
-        <Button className="reiniciar" onClick={handleRestart} >Reiniciar Juego</Button>
-        <Button className='inicio' onClick={() => navigate('/')}>Regresar al Inicio</Button>
+
+        <Button className="reiniciar" onClick={handleRestart}>Reiniciar Juego</Button>
+        <Button className='inicio' onClick={() => navigate('/')}>Volver al inicio</Button>
+          
+       
       </div>
+
+      <audio ref={audioRef} src={music} loop /> 
     </div>
   );
 }

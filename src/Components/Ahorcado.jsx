@@ -1,8 +1,8 @@
-// HangmanGame.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import '../Styles/Ahorcado.css';
 import logoImg from '../IMG/Brain.png';
 import { useNavigate } from 'react-router-dom';
+import music from '../music/music2.mp3'; // Importa la música
 
 const spanishWords = [
   "GATO", "PERRO", "CABALLO", "ELEFANTE", "TIGRE", "VACA", "LEON", "PATO", "CIELO",
@@ -35,8 +35,13 @@ function HangmanGame() {
   const [isDead, setIsDead] = useState(false);
   const maxMistakes = 6;
 
+  const audioRef = useRef(null); // Ref para el audio
+
   useEffect(() => {
     startGame();
+    if (audioRef.current) {
+      audioRef.current.play(); // Reproduce música cuando el juego inicia
+    }
   }, []);
 
   const startGame = () => {
@@ -201,6 +206,7 @@ function HangmanGame() {
 
   return (
     <div>
+      <audio ref={audioRef} src={music} loop /> {/* Música de fondo */}
       <div className="logo-trivia">
         <img src={logoImg} alt="Cerebro" />
       </div>
