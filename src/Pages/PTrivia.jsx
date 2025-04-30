@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CTrivia.css';
 import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
 import Game from '../Components/Game';
 import Login from '../Components/Login';
-import PResults from './PResults'; // Asegúrate de que la ruta es correcta
+import PResults from './PResults';
+import music from '../music/music4.mp3'; 
 
 function PTrivia({ onShowGuide, onLogin }) {
   const [gameConfig, setGameConfig] = useState({
@@ -20,41 +21,49 @@ function PTrivia({ onShowGuide, onLogin }) {
     percentage: 0,
   });
   const [user, setUser] = useState(null);
-  const [currentScreen, setCurrentScreen] = useState('welcome'); // welcome, home, game, login, results
+  const [currentScreen, setCurrentScreen] = useState('welcome'); 
 
   const navigate = useNavigate();
+  const audioRef = useRef(null); 
 
-  // Función para manejar el inicio del juego principal
+  useEffect(() => {
+    if (audioRef.current) {
+      if (currentScreen === 'welcome' || currentScreen === 'hangman') {
+        audioRef.current.play().catch(() => {});
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [currentScreen]);
+
   const handleStartGame = () => {
-    setCurrentScreen('home');
+    setCurrentScreen('home'); 
   };
 
-  // Función para navegar al juego
   const navigateToGame = () => {
-    setCurrentScreen('game');
+    setCurrentScreen('game'); 
   };
 
   const navigateToLogin = () => {
-    setCurrentScreen('login');
+    setCurrentScreen('login'); 
   };
 
-  // Función para jugar ahorcado
   const handlePlayHangman = () => {
-    navigate('/hangman'); // Redirige a la página del ahorcado
+    setCurrentScreen('hangman'); 
+    navigate('/hangman'); 
   };
 
   const handplayMemory = () => {
-    navigate('/memory'); // Redirige a la página del juego de memoria
-  }
+    setCurrentScreen('memory'); 
+    navigate('/memory');
+  };
 
-  // Función para finalizar el juego y mostrar resultados
   const handleEndGame = (stats) => {
     console.log("Juego terminado, resultados:", stats);
     setGameStats(stats);
-    setCurrentScreen('results');
+    setCurrentScreen('results'); 
   };
 
-  // Función para volver a jugar
   const handlePlayAgain = () => {
     setCurrentScreen('home');
   };
@@ -67,30 +76,28 @@ function PTrivia({ onShowGuide, onLogin }) {
             <img src={logoImg} alt="Brain Brawl Logo" className="logo" />
             <h1 className="title">Brain Brawl</h1>
             {user && (
-            <div className="user-info">
-              <img src={user.photoURL} alt="User" className="avatar rounded-circle" width="40" />
-              <span className="ms-2">{user.displayName}</span>
-            </div>
-          )}
+              <div className="user-info">
+                <img src={user.photoURL} alt="User" className="avatar rounded-circle" width="40" />
+                <span className="ms-2">{user.displayName}</span>
+              </div>
+            )}
             <div className="button-container">
-            <button className="login-button" onClick={navigateToLogin}>
+              <button className="login-button" onClick={navigateToLogin}>
                 Iniciar Sesión
               </button>
               <button className="start-button" onClick={handleStartGame}>
                 Juego Preguntas
               </button>
-              
               <button className="hangman-button" onClick={handlePlayHangman}>
                 Juego Ahorcado
               </button>
-
               <button className="memory-button" onClick={handplayMemory}>
                 Juego Memoria
               </button>
             </div>
           </>
         )}
-        
+
         {currentScreen === 'home' && (
           <PHome
             setGameConfig={setGameConfig}
@@ -99,23 +106,23 @@ function PTrivia({ onShowGuide, onLogin }) {
             navigateToGame={navigateToGame}
           />
         )}
-        
+
         {currentScreen === 'game' && (
           <Game
             questions={questions}
             gameConfig={gameConfig}
-            setGameStats={setGameStats} // Mantener compatibilidad con tu código original
-            onEndGame={handleEndGame} // Nuevo método para manejar el fin del juego
+            setGameStats={setGameStats}
+            onEndGame={handleEndGame}
           />
         )}
-        
+
         {currentScreen === 'login' && (
           <Login 
             setUser={setUser} 
             onLoginSuccess={() => setCurrentScreen('welcome')}
           />
         )}
-        
+
         {currentScreen === 'results' && (
           <PResults 
             gameStats={gameStats} 
@@ -124,6 +131,8 @@ function PTrivia({ onShowGuide, onLogin }) {
           />
         )}
       </div>
+
+      <audio ref={audioRef} src={music} loop />
     </div>
   );
 }

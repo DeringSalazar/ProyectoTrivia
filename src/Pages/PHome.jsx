@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Add this import
+import React, { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Form, Card, Spinner, Alert } from 'react-bootstrap';
 import styles from '../styles/CHome.module.css';
+import music from '../music/music1.mp3'; 
 
 const categories = [
   { id: 9, name: 'Conocimiento General' },
@@ -59,6 +60,27 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   const [language, setLanguage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isPlaying, setIsPlaying] = useState(true);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(err => {
+        console.log('Autoplay bloqueado:', err.message);
+        setIsPlaying(false);
+      });
+    }
+  }, []);
+
+  const toggleMusic = () => {
+    if (audioRef.current.paused) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
 
   const LIBRE_TRANSLATE_ENDPOINT = 'https://translate.fedilab.app';
 
@@ -71,9 +93,7 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
         `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
       );
 
-      if (!response.ok) {
-        throw new Error(`Error en la solicitud: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Error en la solicitud: ${response.status}`);
 
       const data = await response.json();
 
@@ -85,14 +105,10 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
         let finalQuestions = processedQuestions;
 
         if (language !== 'en') {
-          console.log(`Intentando traducir preguntas al: ${language}`);
-
           try {
             finalQuestions = await translateAllQuestionsLibre(processedQuestions, language);
-          } catch (translationError) {
-            console.error("Error traduciendo preguntas:", translationError);
-
-            setError("Error al traducir con LibreTranslate. Utilizando método de respaldo.");
+          } catch {
+            setError("Error al traducir. Usando traducción de respaldo.");
             finalQuestions = applyBackupTranslation(processedQuestions, language);
           }
         }
@@ -100,15 +116,13 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
         setQuestions(finalQuestions);
         setGameConfig({ category, difficulty, language });
 
-        if (navigateToGame) {
-          navigateToGame();
-        }
+        if (navigateToGame) navigateToGame();
       } else {
-        setError('No se pudieron cargar las preguntas. Por favor, intenta con otra configuración.');
+        setError('No se pudieron cargar las preguntas. Intenta otra configuración.');
       }
     } catch (err) {
-      setError('Error al conectar con la API. Por favor, intenta de nuevo más tarde.');
-      console.error('Error al cargar preguntas:', err);
+      setError('Error de conexión. Intenta más tarde.');
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -118,131 +132,84 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
     const translatedQuestions = [];
 
     for (const question of questions) {
-      try {
-        const textsToTranslate = [
-          question.question,
-          question.correct_answer,
-          ...question.incorrect_answers
-        ];
-        const translatedTexts = await Promise.all(
-          textsToTranslate.map(text => translateTextLibre(text, targetLanguage))
-        );
+      const textsToTranslate = [
+        question.question,
+        question.correct_answer,
+        ...question.incorrect_answers
+      ];
 
-        const [translatedQuestion, translatedCorrectAnswer, ...translatedIncorrectAnswers] = translatedTexts;
-        const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
-          .sort(() => Math.random() - 0.5);
-        const validTranslation = translatedQuestion && translatedCorrectAnswer &&
-          translatedIncorrectAnswers.every(answer => answer);
+      const translatedTexts = await Promise.all(
+        textsToTranslate.map(text => translateTextLibre(text, targetLanguage))
+      );
 
-        if (!validTranslation) {
-          console.warn('Algunas traducciones no fueron exitosas, usando texto original para esta pregunta');
-          translatedQuestions.push(question);
-          continue;
-        }
+      const [translatedQuestion, translatedCorrectAnswer, ...translatedIncorrectAnswers] = translatedTexts;
+      const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
+        .sort(() => Math.random() - 0.5);
 
-        translatedQuestions.push({
-          ...question,
-          question: translatedQuestion,
-          correct_answer: translatedCorrectAnswer,
-          incorrect_answers: translatedIncorrectAnswers,
-          all_answers: translatedAllAnswers,
-          translated: true,
-          targetLanguage
-        });
-
-      } catch (error) {
-        console.error('Error traduciendo una pregunta:', error);
-        translatedQuestions.push(question);
-      }
+      translatedQuestions.push({
+        ...question,
+        question: translatedQuestion,
+        correct_answer: translatedCorrectAnswer,
+        incorrect_answers: translatedIncorrectAnswers,
+        all_answers: translatedAllAnswers,
+        translated: true,
+        targetLanguage
+      });
     }
 
     return translatedQuestions;
   };
 
-  const applyBackupTranslation = (questions, targetLanguage) => {
-    if (!commonTranslations[targetLanguage]) {
-      return questions;
-    }
+  const translateTextLibre = async (text, targetLanguage) => {
+    if (!text) return text;
 
-    return questions.map(question => {
-      try {
-        let translatedQuestion = question.question;
-        let translatedCorrectAnswer = question.correct_answer;
-        let translatedIncorrectAnswers = [...question.incorrect_answers];
+    const formData = new URLSearchParams();
+    formData.append('q', text);
+    formData.append('source', 'en');
+    formData.append('target', targetLanguage);
+    formData.append('format', 'text');
 
-        Object.entries(commonTranslations[targetLanguage]).forEach(([original, translated]) => {
-          const regex = new RegExp(`\\b${original}\\b`, 'gi');
-          translatedQuestion = translatedQuestion.replace(regex, translated);
-          translatedCorrectAnswer = translatedCorrectAnswer.replace(regex, translated);
-          translatedIncorrectAnswers = translatedIncorrectAnswers.map(answer =>
-            answer.replace(regex, translated)
-          );
-        });
-
-        const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
-          .sort(() => Math.random() - 0.5);
-
-        return {
-          ...question,
-          question: translatedQuestion,
-          correct_answer: translatedCorrectAnswer,
-          incorrect_answers: translatedIncorrectAnswers,
-          all_answers: translatedAllAnswers,
-          translated: true,
-          targetLanguage,
-          backupTranslation: true
-        };
-      } catch (e) {
-        console.error('Error en traducción de respaldo:', e);
-        return question;
-      }
+    const response = await fetch(`${LIBRE_TRANSLATE_ENDPOINT}/translate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData
     });
+
+    const result = await response.json();
+    return result?.translatedText || text;
   };
 
-  const translateTextLibre = async (text, targetLanguage) => {
-    try {
-      if (!text || text.trim() === '') {
-        return text;
+  const applyBackupTranslation = (questions, targetLanguage) => {
+    if (!commonTranslations[targetLanguage]) return questions;
+
+    return questions.map(question => {
+      let { question: qText, correct_answer, incorrect_answers } = question;
+
+      for (const [original, translated] of Object.entries(commonTranslations[targetLanguage])) {
+        const regex = new RegExp(`\\b${original}\\b`, 'gi');
+        qText = qText.replace(regex, translated);
+        correct_answer = correct_answer.replace(regex, translated);
+        incorrect_answers = incorrect_answers.map(ans => ans.replace(regex, translated));
       }
 
-      const formData = new URLSearchParams();
-      formData.append('q', text);
-      formData.append('source', 'en');
-      formData.append('target', targetLanguage);
-      formData.append('format', 'text');
-
-      const response = await fetch(`${LIBRE_TRANSLATE_ENDPOINT}/translate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result && result.translatedText) {
-        return result.translatedText;
-      } else {
-        return text;
-      }
-    } catch (error) {
-      console.error(`Error con LibreTranslate:`, error);
-      throw error;
-    }
+      return {
+        ...question,
+        question: qText,
+        correct_answer,
+        incorrect_answers,
+        all_answers: [correct_answer, ...incorrect_answers].sort(() => Math.random() - 0.5),
+        translated: true,
+        backupTranslation: true
+      };
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!category || !difficulty || !language) {
-      setError('Por favor, selecciona una categoría, una dificultad y un idioma.');
+      setError('Por favor, selecciona una categoría, dificultad e idioma.');
       return;
     }
-
     fetchQuestions();
   };
 
@@ -251,12 +218,14 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
       <header className={styles.headerBrain}>
         <h1 className="display-4">Brain Brawl</h1>
       </header>
+
       {user && (
         <div className={styles.userInfo}>
           <img src={user.photoURL} alt="User" className="avatar rounded-circle" width="40" />
           <span className="ms-2">{user.displayName}</span>
         </div>
       )}
+
       <Card className={styles.cardShadow}>
         <Card.Body className={styles.cardBody}>
           <Card.Title className={styles.cardTitle}>Configura tu Juego</Card.Title>
@@ -266,82 +235,52 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
           <Form onSubmit={handleSubmit}>
             <Form.Group className={styles.formGroup} style={{ "--animation-order": 1 }}>
               <Form.Label className={styles.formLabel}>Categoría</Form.Label>
-              <Form.Select
-                className={styles.formSelect}
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                disabled={loading}
-              >
+              <Form.Select value={category} onChange={(e) => setCategory(e.target.value)} disabled={loading}>
                 <option value="">Selecciona una categoría</option>
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
               </Form.Select>
             </Form.Group>
 
             <Form.Group className={styles.formGroup} style={{ "--animation-order": 2 }}>
               <Form.Label className={styles.formLabel}>Dificultad</Form.Label>
-              <Form.Select
-                className={styles.formSelect}
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                disabled={loading}
-              >
+              <Form.Select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} disabled={loading}>
                 <option value="">Selecciona una dificultad</option>
-                {difficulties.map((diff) => (
-                  <option key={diff.id} value={diff.id}>
-                    {diff.name} - {diff.timeLimit} seg
-                  </option>
+                {difficulties.map(diff => (
+                  <option key={diff.id} value={diff.id}>{diff.name} - {diff.timeLimit} seg</option>
                 ))}
               </Form.Select>
             </Form.Group>
 
             <Form.Group className={styles.formGroup} style={{ "--animation-order": 3 }}>
               <Form.Label className={styles.formLabel}>Idioma</Form.Label>
-              <Form.Select
-                className={styles.formSelect}
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                disabled={loading}
-              >
+              <Form.Select value={language} onChange={(e) => setLanguage(e.target.value)} disabled={loading}>
                 <option value="">Selecciona un idioma</option>
-                {languages.map((lang) => (
-                  <option key={lang.id} value={lang.id}>
-                    {lang.name}
-                  </option>
+                {languages.map(lang => (
+                  <option key={lang.id} value={lang.id}>{lang.name}</option>
                 ))}
               </Form.Select>
             </Form.Group>
 
             <div className="d-grid">
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={loading}
-                className={styles.btnPrimary}
-              >
+              <Button type="submit" disabled={loading} className={styles.btnPrimary}>
                 {loading ? (
                   <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                      className={`me-2 ${styles.spinnerBorder}`}
-                    />
+                    <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                     Cargando...
                   </>
-                ) : (
-                  'Comenzar Juego'
-                )}
+                ) : 'Comenzar Juego'}
               </Button>
             </div>
           </Form>
+
+         
         </Card.Body>
       </Card>
+
+      
+      <audio ref={audioRef} src={music} loop />
     </div>
   );
 }

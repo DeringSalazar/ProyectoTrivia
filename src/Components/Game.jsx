@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, ProgressBar, Button } from 'react-bootstrap';
 import Question from './Question';
 import Timer from './Timer';
 import '../Styles/CGame.css';
 import logoImg from '../IMG/Brain.png'; 
+import music from '../music/music2.mp3'; 
 
 function Game({ gameConfig, questions, setGameStats, onEndGame }) {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [hasError, setHasError] = useState(false);
+ 
+
+  const audioRef = useRef(null); // Ref para el audio
 
   function getTimeLimit() {
     switch (gameConfig.difficulty) {
@@ -29,6 +33,10 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
     if (!questions || questions.length === 0) {
       setHasError(true);
       return;
+    }
+
+    if (audioRef.current) {
+      audioRef.current.play();
     }
   }, [questions]);
 
@@ -78,14 +86,11 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
           percentage
         };
         
-        // Actualizar las estadísticas de juego
         setGameStats(finalStats);
         
-        // Llamar a onEndGame si existe (para cuando se usa dentro de PTrivia)
         if (onEndGame) {
           onEndGame(finalStats);
         } else {
-          // Navegar directamente a resultados si no hay onEndGame (para uso directo)
           navigate('/PResults');
         }
       }
@@ -106,16 +111,18 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
 
   return (
     <div className="game-container">
+      <audio ref={audioRef} src={music} loop />
+
       {!showHome && (
-          <>
-            <img
-              src={logoImg}
-              alt="Logo del juego"
-              className="game-logo"
-            />
-            <h1 className="game-title">Brain Brawl</h1>
-          </>
-        )}
+        <>
+          <img
+            src={logoImg}
+            alt="Logo del juego"
+            className="game-logo"
+          />
+          <h1 className="game-title">Brain Brawl</h1>
+        </>
+      )}
       <div className="game-header mb-4">
         <div className="d-flex justify-content-between align-items-center mb-2">
           <Badge className="question-badge" bg="primary">Pregunta {currentQuestionIndex + 1}/{questions.length}</Badge>
@@ -128,7 +135,6 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
           className="mb-2"
         />
         
-        {/* Usar el componente Timer */}
         <Timer 
           timeLeft={timeLeft} 
           onTimeUp={handleTimeUp} 
@@ -145,7 +151,7 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
       />
 
       <div className="text-center mt-4">
-        <Button className='reiniciarpregunta' onClick={() => restartGame()} variant="primary">Reiniciar Juego</Button>
+        <Button onClick={() => restartGame()} variant="primary">Reiniciar Juego</Button>
       </div>
     </div>
   );
@@ -160,6 +166,13 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
     setHasError(false);
     navigate('/');
   }
+
+   <Button
+              variant="link"
+              onClick={() => navigate('/')} 
+            >
+              volver al inicio
+            </Button>
 }
 
 export default Game;
