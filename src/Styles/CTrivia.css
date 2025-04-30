@@ -33,10 +33,10 @@
 }
 
 .trivia-container .trivia-content .logo {
-  width: 100%; /* Hace que el logo ocupe todo el ancho disponible del contenido */
-  max-width: 300px; /* Puedes ajustar este valor si quieres un tope máximo */
-  height: auto; /* Mantiene la proporción correcta de la imagen */
-  margin-bottom: 1.5rem; /* Un poco más de separación debajo del logo */
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 1.5rem;
 }
 
 .title {
@@ -50,7 +50,7 @@
 .button-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espacio entre botones */
+  gap: 1.5rem; 
   width: 100%;
 }
 
@@ -59,11 +59,11 @@
   font-size: 1.2rem;
   color: white;
   border: none;
-  border-radius: 15px; /* Bordes más redondeados */
+  border-radius: 15px; 
   cursor: pointer;
   width: 100%;
   transition: all 0.3s ease;
-  margin-bottom: 0.5rem; /* Espacio adicional entre botones */
+  margin-bottom: 0.5rem; 
 }
 
 .start-button:hover, .login-button:hover, .hangman-button:hover, .memory-button:hover {
@@ -76,7 +76,7 @@
 }
 
 .login-button {
-  background-color: #2196F3;
+  background-color: #50a5eb;
 }
 
 .hangman-button {
@@ -87,7 +87,22 @@
   background-color: purple;
 }
 
-/* Estilos para la sección de resultados */
+.start-button:hover {
+  background-color: #fa1b89;
+}
+
+.login-button:hover {
+  background-color: #2a78ca;
+}
+
+.hangman-button:hover {
+  background-color: #ff7300;
+}
+
+.memory-button:hover {
+  background-color: #680968;
+}
+
 .results-container {
   text-align: center;
   width: 100%;
@@ -110,6 +125,8 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
 
 @media (max-height: 600px) {
   .trivia-content {
