@@ -20,7 +20,7 @@ const categories = [
 const difficulties = [
   { id: 'easy', name: 'Fácil', timeLimit: 30 },
   { id: 'medium', name: 'Medio', timeLimit: 20 },
-  { id: 'hard', name: 'Difícil', timeLimit: 15 },
+  { id: 'hard', name: 'Difícil', timeLimit: 10 },
 ];
 
 const languages = [

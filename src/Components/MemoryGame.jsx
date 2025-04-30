@@ -106,7 +106,7 @@ function MemoryGame() {
 
   return (
     <div className="memory-game-container text-center">
-      <h2 className="mb-4">Juego de Memoria 🧠</h2>
+      <h2 className="titulo">Juego de Memoria 🧠</h2>
 
       {!gameOver && (
         <Timer
@@ -147,8 +147,8 @@ function MemoryGame() {
             ¡Ganaste el juego en {moves} movimientos!
           </div>
         )}
-        <Button onClick={handleRestart} className="me-2">Reiniciar Juego</Button>
-        <Button onClick={() => navigate('/')}>Volver al inicio</Button>
+        <Button className="reiniciar" onClick={handleRestart} >Reiniciar Juego</Button>
+        <Button className='inicio' onClick={() => navigate('/')}>Volver al inicio</Button>
       </div>
     </div>
   );
