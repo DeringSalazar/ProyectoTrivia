@@ -6,7 +6,6 @@ import LoginPrompt from '../Components/LoginPrompt';
 import '../Styles/CResults.css';
 
 function PResults({ gameStats, user, onPlayAgain }) {
-  // Verificar que gameStats existe y tiene los datos necesarios
   const hasStats = gameStats && 
     typeof gameStats.totalQuestions === 'number' && 
     typeof gameStats.correctAnswers === 'number' && 
@@ -29,10 +28,7 @@ function PResults({ gameStats, user, onPlayAgain }) {
       <Card.Body className="p-4 text-center">
         <Card.Title className="display-6 mb-3">Resultados</Card.Title>
         
-        {/* Usar el componente ResultSummary que ya existía */}
         <ResultSummary gameStats={gameStats} />
-        
-        {/* Componentes condicionales */}
         {user ? (
           <ShareButtons gameStats={gameStats} />
         ) : (
@@ -52,11 +48,10 @@ function PResults({ gameStats, user, onPlayAgain }) {
   );
 }
 
-// Función para determinar el color según el porcentaje
 function getColorByPercentage(percentage) {
-  if (percentage < 40) return '#dc3545'; // rojo - bajo
-  if (percentage < 70) return '#ffc107'; // amarillo - medio
-  return '#28a745'; // verde - alto
+  if (percentage < 40) return '#dc3545'; 
+  if (percentage < 70) return '#ffc107'; //
+  return '#28a745'; 
 }
 
 export default PResults;
