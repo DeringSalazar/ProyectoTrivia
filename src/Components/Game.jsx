@@ -145,7 +145,7 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
       />
 
       <div className="text-center mt-4">
-        <Button onClick={() => restartGame()} variant="primary">Reiniciar Juego</Button>
+        <Button className='reiniciarpregunta' onClick={() => restartGame()} variant="primary">Reiniciar Juego</Button>
       </div>
     </div>
   );
