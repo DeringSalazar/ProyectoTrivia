@@ -1,43 +1,31 @@
- 
-  
-  
-  /* Títulos y estadísticas */
-  .display-4 {
-    font-size: 3.5vw; /* Tamaño de fuente ajustable para pantallas pequeñas */
+ .display-4 {
+    font-size: 3.5vw; 
   }
   
   .text-muted {
     font-size: 1.2em;
   }
   
-  /* Estilo para la barra de progreso */
   .progress-bar {
     height: 20px;
   }
   
-  /* Colores de los botones */
-.btn btn-again {
-  background-color: #ec37b6;
-  color: rgb(0, 0, 0);
-  border-radius: 40px; /* Más redondeado */
-  border: none; /* Sin borde */
-}
-
 .btn-face {
   background-color: #0d417c;
   color: rgb(0, 0, 0);
-  border-radius: 20px; /* Más redondeado */
-  border: none; /* Sin borde */
+  border-radius: 8px; 
+  border: none; 
 }
 .btn-face:hover {
   background-color: #d8801b;
+  color: rgb(0, 0, 0);
 }
 
 .btn-info {
   background-color: #1ec0e9;
   color: rgb(0, 0, 0);
-  border-radius: 20px; /* Más redondeado */
-  border: none; /* Sin borde */
+  border-radius: 8px; 
+  border: none; 
 }
 
 .btn-info:hover {
@@ -45,54 +33,47 @@
 }
 
 .btn-success {
-  background-color: #199123;
+  background-color: #1ac028;
   color: rgb(0, 0, 0);
-  border-radius: 20px; /* Más redondeado */
-  border: none; /* Sin borde */
+  border-radius: 8px; 
+  border: none; 
 }
 
 .btn-success:hover {
-  background-color: #e165ec;
+  background-color: #f34eac;
+  color: rgb(0, 0, 0);
 }
 
-/* Efecto de animación al pasar el ratón */
 .btn:hover {
-  transform: scale(1.05); /* Efecto de zoom */
+  transform: scale(1.05); 
 }
 
-/* Botón para jugar de nuevo */
-
-  
-  /* Estilos responsivos para pantallas pequeñas */
-  
-  /* Para pantallas más pequeñas (hasta 768px de ancho) */
   @media (max-width: 768px) {
     .results-card {
-      padding: 10% 5%; /* Reducir el espaciado */
-      margin: 20px; /* Reducir el margen */
+      padding: 10% 5%; 
+      margin: 20px; 
     }
   
     .display-4 {
-      font-size: 5vw; /* Reducir tamaño de fuente para pantallas más pequeñas */
+      font-size: 5vw; 
     }
   
   }
   
-  /* Para pantallas extra pequeñas (hasta 480px de ancho) */
   @media (max-width: 480px) {
     .results-card {
-      padding: 10% 5%; /* Reducir aún más el espaciado */
-      margin: 15px; /* Reducir margen */
-      max-width: 90%; /* Hacer que el contenedor ocupe el 90% del ancho */
+      padding: 10% 5%; 
+      margin: 15px; 
+      max-width: 90%; 
     }
   
     .display-4 {
-      font-size: 6vw; /* Reducir aún más el tamaño de la fuente */
+      font-size: 6vw; 
     }
   
     .social-buttons button {
-      width: 100%; /* Asegurarse de que los botones ocupen el 100% del ancho */
-      padding: 10px 20px; /* Ajustar el padding para pantallas más pequeñas */
+      width: 100%; 
+      padding: 10px 20px; 
     }
   }
   

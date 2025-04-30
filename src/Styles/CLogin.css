@@ -31,7 +31,7 @@
     font-size: 1.1rem;  
     padding: 12px; 
     font-weight: 700;  
-    border-radius: 5px;  
+    border-radius: 8px;  
   }
   
   /* Estilo específico para el botón de Google */
@@ -48,13 +48,14 @@
   
   /* Estilo específico para el botón de Facebook */
   button.btn-outline-primary {
-    border: 2px solid #1877f2;
-    color: #1877f2;
+    border: 2px solid #000000;
+    color: #000000;
   }
   
   button.btn-outline-primary:hover { /* Fondo azul al pasar el mouse de facebook */
-    background-color: #1877f2;
-    color: white;
+    background-color: #f34eac;
+    color: rgb(255, 255, 255);
+    border: 2px solid #f34eac;
   }
   
   /* Estilo para el botón de "Volver sin iniciar sesión" */
@@ -72,8 +73,6 @@
   button .me-2 {
     margin-right: 10px;  
   }
-  
- 
   
   .logo-trivialogin img {
     width: 300px; 
