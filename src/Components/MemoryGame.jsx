@@ -36,7 +36,7 @@ function MemoryGame() {
   const [moves, setMoves] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [showAllCards, setShowAllCards] = useState(true);
-  const [timerResetKey, setTimerResetKey] = useState(0); // Para reiniciar el temporizador
+  const [timerResetKey, setTimerResetKey] = useState(0); 
 
   const initializeGame = () => {
     const shuffledCards = [...images, ...images]
@@ -59,7 +59,7 @@ function MemoryGame() {
       const hiddenCards = shuffledCards.map(card => ({ ...card, flipped: false }));
       setCards(hiddenCards);
       setShowAllCards(false);
-    }, 3000);
+    }, 5000);
   };
 
   useEffect(() => {
