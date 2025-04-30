@@ -6,7 +6,6 @@
     box-sizing: border-box;
 }
 
-/* Contenedor principal del juego */
 .game-container {
     background-image: url('../IMG/Fondo.jpg');
     background-size: cover;
@@ -23,10 +22,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* Asegura la organización vertical */
 }
 
-/* Encabezado del juego */
 .game-header {
     background-color: #50a5eb;
     border-radius: 10px;
@@ -79,7 +76,6 @@
     font-weight: bold;
 }
 
-/* Tiempo restante */
 .text-end small {
     font-size: 0.8rem;
     color: #ffffff;
@@ -88,7 +84,6 @@
     font-weight: bold;
 }
 
-/* Contenedor de preguntas */
 .question-card {
     background-color: white;
     border-radius: 8px;
@@ -98,16 +93,13 @@
     width: 100%;
     max-width: 700px;
     max-height: 500px;
-    /* Añadí un límite de ancho máximo */
 }
 
-/* Contenedor de botones de respuestas */
 .d-grid {
     display: grid;
     gap: 15px;
 }
 
-/* Barra de progreso */
 .mb-2 .progress-bar {
     height: 12px;
     border-radius: 10px;

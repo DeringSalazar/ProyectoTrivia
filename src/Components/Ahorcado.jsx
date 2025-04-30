@@ -214,12 +214,14 @@ function HangmanGame() {
         <div id="attempts">
           Intentos: {mistakes}/{maxMistakes}
         </div>
+        <div className="button-acciones">
         <button id="restartGameBtn" onClick={startGame}>
-          Nuevo Juego
+          Reiniciar Juego
         </button>
         <button id="goBackBtn" onClick={() => navigate('/')}>
-          Regresar
+          Regresar al Inicio
         </button>
+        </div>
       </div>
     </div>
   );

@@ -148,7 +148,7 @@ function MemoryGame() {
           </div>
         )}
         <Button className="reiniciar" onClick={handleRestart} >Reiniciar Juego</Button>
-        <Button className='inicio' onClick={() => navigate('/')}>Volver al inicio</Button>
+        <Button className='inicio' onClick={() => navigate('/')}>Regresar al Inicio</Button>
       </div>
     </div>
   );
