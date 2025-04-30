@@ -17,13 +17,13 @@ h1 {
 
 .logo-trivia {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .logo-trivia img {
-  width: 500px; 
+  width: 200px;
   height: auto;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 #game {
@@ -36,13 +36,16 @@ h1 {
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 20px;
+  width: 100%;
+  max-height: 700px;
+  height: 100%;
 }
 
 .letters button {
   margin: 5px;
   padding: 10px;
   font-size: 16px;
-  background-color: #3f34db;
+  background-color: #2a78ca;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -51,33 +54,37 @@ h1 {
 }
 
 .letters button:hover {
-  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #50a5eb;
 }
 
-#restartBtn {
-  margin-top: 20px;
-  padding: 10px 20px;
+#question, #word, #attempts {
   font-size: 16px;
-  background-color: #2ecc71;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
-#restartBtn:hover {
-  background-color: #27ae60;
+#game canvas {
+  width: 100%;
+  max-height: 200px;
+  max-width: 300px;
+  height: 100%;
 }
 
-#buttons-container {
-  display: flex; 
-  justify-content: center; 
-  gap: 10px; 
-  margin-top: 20px; 
+#restartGameBtn {
+  background-color: #04bf55;
 }
 
-button {
-  background-color: #28a745; 
+#goBackBtn {
+  background-color: #f34eac;
+}
+
+button.disabled {
+  background-color: #cccccc;
+  pointer-events: none;
+  color: #888;
+}
+
+#restartGameBtn, #goBackBtn {
   color: white;
   border: none;
   padding: 10px 20px;
@@ -87,12 +94,15 @@ button {
   transition: background-color 0.3s ease;
 }
 
-#game button {
-  margin: 10px;
+#restartGameBtn:hover, #goBackBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-button.disabled {
-  background-color: #cccccc;
-  pointer-events: none;
-  color: #888;
+#restartGameBtn:hover {
+  background-color: #62ad45;
+}
+
+#goBackBtn:hover {
+  background-color: #fa1b89;
 }
