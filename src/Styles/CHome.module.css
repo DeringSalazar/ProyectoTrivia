@@ -1,11 +1,10 @@
-/* Colorful Quiz Interface Mejorado - Versión Optimizada */
+
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
-/* Estilos generales y variables */
+
 :root {
-  /* Paleta de colores actualizada más armoniosa */
-  --primary-color: #a70000;
+  --primary-color: purple;
   --secondary-color: #000000;
-  --accent-color: #EC4899;
+  --accent-color: #ecaa48;
   --text-color: #1F2937;
   --light-bg: #F9FAFB;
   --input-bg: #F3F4F6;
@@ -16,6 +15,7 @@
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.07);
 }
+
 
 body {
   background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
@@ -29,7 +29,6 @@ body {
   color: var(--text-color);
   height: 100vh;
   overflow-y: auto;
-  /* Aseguramos que el contenido no esté recortado */
   margin: 0;
 }
 
@@ -52,15 +51,15 @@ body {
   font-family: 'Luckiest Guy', cursive;
 }
 
-/* Información del usuario */
+
 .userInfo {
   display: flex;
-  flex-direction: column; /* Cambiado a columna para que el nombre quede debajo */
+  flex-direction: column; 
   align-items: center;
   padding: 0.3rem 0.6rem;
   transition: all 0.3s ease;
-  margin-top: -10px; /* Para acercarlo al título del juego */
-  max-width: 150px; /* Ancho máximo más pequeño */
+  margin-top: -10px; 
+  max-width: 150px; 
   margin-left: auto;
   margin-right: auto;
 }
@@ -69,25 +68,24 @@ body {
   transform: translateY(-1px);
 }
 
-/* Avatar del usuario */
 .userInfo img {
-  width: 30px; /* Tamaño más pequeño */
+  width: 30px; 
   height: 30px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   border-radius: 50%;
 }
 
-/* Nombre del usuario */
+
 .userInfo span {
   font-weight: 500;
-  font-size: 1rem; /* Tamaño de fuente más pequeño */
+  font-size: 1rem; 
   color: rgb(0, 0, 0);
   margin-top: 0.2rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
+
 @media (max-width: 576px) {
   .headerBrain {
     padding: 0.75rem 1rem;
@@ -112,15 +110,15 @@ body {
   }
 }
 
-/* Estilos para la nube en el botón */
+
 .btnPrimary {
   padding: 10px;
   margin-top: 0.5rem;
   position: relative;
-  overflow: hidden; /* Importante para contener la nube */
+  overflow: hidden; 
 }
 
-/* Creamos la nube con pseudo-elementos */
+
 .btnPrimary::after {
   content: '';
   position: absolute;
@@ -129,23 +127,23 @@ body {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 50px;
   top: 10px;
-  left: -100px; /* Inicialmente fuera del botón */
+  left: -100px; 
   filter: blur(5px);
   opacity: 0;
   transition: opacity 0.3s ease;
   box-shadow: 
     30px 10px 0 -5px rgba(255, 255, 255, 0.6),
     50px 15px 0 -8px rgba(255, 255, 255, 0.4);
-  pointer-events: none; /* Para que no interfiera con el botón */
+  pointer-events: none; 
 }
 
-/* Cuando pasamos el cursor por encima del botón */
+
 .btnPrimary:hover::after {
   opacity: 0.7;
   animation: floatCloud 3s ease-in-out infinite;
 }
 
-/* Animación de la nube flotando */
+
 @keyframes floatCloud {
   0% {
       left: -100px;
@@ -155,9 +153,9 @@ body {
   }
 }
 
-/* MODIFICADO: Hacemos que cardShadow sea invisible pero mantenga su estructura */
+
 .cardShadow {
-  visibility: hidden; /* Oculta visualmente pero mantiene el espacio */
+  visibility: hidden; 
   border-radius: var(--border-radius);
   background: transparent;
   border: none;
@@ -170,7 +168,7 @@ body {
   max-height: 90vh;
 }
 
-/* AÑADIDO: Aseguramos que el contenido dentro de cardShadow sí sea visible */
+
 .cardShadow > * {
   visibility: visible;
 }
@@ -183,32 +181,32 @@ body {
 }
 
 .cardTitle {
-  color: var(--primary-color);
+  color: #000000;
   font-weight: 800;
   font-size: 1.8rem;
   text-align: center;
-  margin-bottom: 0.5rem; /* Reducido de 1rem */
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+  margin-bottom: 0.5rem; 
+  background: linear-gradient(90deg, #46af15, #46af15, #46af15); /* Naranja gradiente */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.5px;
 }
 
-/* MODIFICADO: Estilizar Form Groups - asegurando que se vean los bordes */
+
 .formGroup {
-  margin-bottom: 0.5rem !important; /* Reducido de 1rem */
+  margin-bottom: 0.5rem !important; 
   position: relative;
-  padding: 0.3rem 0; /* Reducido padding vertical y eliminado horizontal */
+  padding: 0.3rem 0; 
   border-radius: var(--border-radius);
-  background: transparent; /* Eliminado el fondo */
-  box-shadow: none; /* Eliminado el shadow */
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Añadido borde sutil */
+  background: transparent;
+  box-shadow: none; 
+  border: 1px solid rgba(0, 0, 0, 0.1); 
   transition: all 0.3s ease;
 }
 
 .formGroup:hover {
-  transform: none; /* Eliminado el efecto de elevación */
+  transform: none; 
   box-shadow: none;
   background: transparent;
 }
@@ -217,7 +215,7 @@ body {
   font-weight: 700;
   color: var(--primary-color);
   font-size: 1rem;
-  margin-bottom: 0.1rem; /* Reducido de 0.2rem */
+  margin-bottom: 0.1rem; 
   display: block;
   transition: all 0.2s ease;
   position: relative;
@@ -236,13 +234,13 @@ body {
 .formSelect {
   border-radius: var(--border-radius);
   padding: 8px 12px;
-  border: 2px solid rgba(99, 102, 241, 0.3);
+  border: 2px solid rgba(0, 0, 0, 0.479);
   background-color: var(--input-bg);
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-color);
   transition: all 0.3s ease;
-  box-shadow: var(--shadow-sm);
+  box-shadow: rgba(0, 0, 0, 0.479);
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236366F1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -261,15 +259,14 @@ body {
   border-color: var(--secondary-color);
 }
 
-/* Estilos para opciones */
 .formSelect option {
   padding: 12px;
   font-weight: 500;
 }
 
-/* Estilo para el botón */
+
 .btnPrimary {
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  background: #f34eac;
   border: none;
   border-radius: var(--border-radius);
   padding: 14px;
@@ -281,7 +278,7 @@ body {
   position: relative;
   overflow: hidden;
   width: 100%;
-  margin-top: 0.5rem; /* Reducido de 0.8rem */
+  margin-top: 0.5rem; 
   color: white;
 }
 
@@ -301,7 +298,7 @@ body {
 }
 
 .btnPrimary:hover, .btnPrimary:focus {
-  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  background: linear-gradient(45deg, #048cad, #56cde2);
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
 }
@@ -310,7 +307,6 @@ body {
   transform: translateY(1px);
 }
 
-/* Spinner personalizado */
 .spinnerBorder {
   width: 1.2rem;
   height: 1.2rem;
@@ -319,7 +315,7 @@ body {
   border-right-color: transparent;
 }
 
-/* Alerta personalizada */
+
 .alertDanger {
   background-color: rgba(239, 68, 68, 0.08);
   color: var(--danger);
@@ -338,7 +334,7 @@ body {
   font-size: 1.2rem;
 }
 
-/* Efectos de animación */
+
 @keyframes fadeInUp {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
@@ -367,7 +363,7 @@ body {
   animation-delay: 0.6s;
 }
 
-/* Ajuste para dispositivos móviles más agresivo */
+
 @media (max-width: 576px) {
   .formGroup {
     padding: 0.3rem 0;
@@ -384,18 +380,17 @@ body {
   }
 }
 
-/* Quitar efectos innecesarios de los form-groups */
+
 .formGroup::after {
   content: none;
 }
 
-/* Animar etiquetas durante el foco */
+
 .formGroup:focus-within .formLabel {
   transform: translateX(5px);
   color: var(--secondary-color);
 }
 
-/* Estado deshabilitado mejorado */
 .formSelect:disabled, .btnPrimary:disabled {
   opacity: 0.7;
   cursor: not-allowed;
@@ -405,47 +400,51 @@ body {
   background: linear-gradient(45deg, #A5A6F6, #B8A3F9);
 }
 
-/* Mejora visual para el botón de carga */
+
 .btnPrimary:disabled .spinnerBorder {
   opacity: 0.8;
 }
 
-/* Estilos para el contenedor del quiz */
+
 .quizContainer {
   width: 100%;
   max-width: 100%;
   display: flex;
-  flex-direction: column; /* Cambiado para acomodar todo verticalmente */
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   max-width: 90vh;
-  /* AÑADIDO: Aseguramos que se vean los bordes superior e inferior */
-  border-top: 2px solid var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
   padding: 20px 0;
 }
 
-/* MODIFICADO: Estilo para el prompt de inicio de sesión - más compacto */
-.loginPrompt {
-  margin-top: 0.75rem; /* Reducido de 1.5rem */
-  text-align: center;
-  padding: 0.5rem; /* Reducido de 1rem */
-  background: transparent; /* Eliminado el fondo */
-  border-radius: var(--border-radius);
-  /* AÑADIDO: Aseguramos que se vea el borde */
-  border: 1px solid var(--primary-color);
-  font-size: 0.9rem; /* Texto más pequeño */
+.quizContainer .logo { 
+  width: 100%; 
+  max-width: 300px; 
+  height: auto; 
+  margin-bottom: 1.5rem; 
 }
 
-/* Estilo para el botón outline */
+
+.loginPrompt {
+  margin-top: 0.75rem; 
+  text-align: center;
+  padding: 0.5rem; 
+  background: transparent; 
+  border-radius: var(--border-radius);
+  border: 1px solid var(--primary-color);
+  font-size: 0.9rem; 
+}
+
 .btnOutline {
   background: transparent;
   border: 2px solid var(--primary-color);
   color: var(--primary-color);
   border-radius: var(--border-radius);
-  padding: 8px 14px; /* Reducido de 10px 16px */
+  padding: 8px 14px; 
   font-weight: 600;
-  font-size: 0.9rem; /* Texto más pequeño */
+  font-size: 0.9rem; 
   transition: all 0.3s ease;
 }
 
