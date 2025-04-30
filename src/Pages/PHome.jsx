@@ -32,7 +32,6 @@ const languages = [
   { id: 'pt', name: 'Portugués' },
 ];
 
-// Traducciones predefinidas para algunos términos comunes en preguntas (respaldo)
 const commonTranslations = {
   es: {
     "What": "Qué",
@@ -61,7 +60,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Endpoint de LibreTranslate
   const LIBRE_TRANSLATE_ENDPOINT = 'https://translate.fedilab.app';
 
   const fetchQuestions = async () => {
@@ -69,7 +67,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
     setError('');
 
     try {
-      // Obtener preguntas de Open Trivia Database
       const response = await fetch(
         `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`
       );
@@ -81,25 +78,20 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
       const data = await response.json();
 
       if (data.response_code === 0) {
-        // Procesar preguntas y añadir array de respuestas
         const processedQuestions = data.results.map(q => ({
           ...q,
           all_answers: [q.correct_answer, ...q.incorrect_answers].sort(() => Math.random() - 0.5)
         }));
-
-        // Solo traducir si el idioma no es inglés
         let finalQuestions = processedQuestions;
 
         if (language !== 'en') {
           console.log(`Intentando traducir preguntas al: ${language}`);
 
           try {
-            // Usar LibreTranslate para traducción
             finalQuestions = await translateAllQuestionsLibre(processedQuestions, language);
           } catch (translationError) {
             console.error("Error traduciendo preguntas:", translationError);
 
-            // Si falla la traducción, usar método de respaldo
             setError("Error al traducir con LibreTranslate. Utilizando método de respaldo.");
             finalQuestions = applyBackupTranslation(processedQuestions, language);
           }
@@ -108,7 +100,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
         setQuestions(finalQuestions);
         setGameConfig({ category, difficulty, language });
 
-        // Si estamos usando React Router y tenemos una función de navegación
         if (navigateToGame) {
           navigateToGame();
         }
@@ -123,32 +114,23 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
     }
   };
 
-  // Traducción con LibreTranslate
   const translateAllQuestionsLibre = async (questions, targetLanguage) => {
     const translatedQuestions = [];
 
     for (const question of questions) {
       try {
-        // Preparar todos los textos que necesitamos traducir
         const textsToTranslate = [
           question.question,
           question.correct_answer,
           ...question.incorrect_answers
         ];
-
-        // Traducir todos los textos en paralelo
         const translatedTexts = await Promise.all(
           textsToTranslate.map(text => translateTextLibre(text, targetLanguage))
         );
 
-        // Extraer los resultados traducidos
         const [translatedQuestion, translatedCorrectAnswer, ...translatedIncorrectAnswers] = translatedTexts;
-
-        // Crear array de todas las respuestas traducidas y mezclarlas
         const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
           .sort(() => Math.random() - 0.5);
-
-        // Validar que todas las traducciones estén presentes
         const validTranslation = translatedQuestion && translatedCorrectAnswer &&
           translatedIncorrectAnswers.every(answer => answer);
 
@@ -158,7 +140,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
           continue;
         }
 
-        // Agregar la pregunta traducida al array de resultados
         translatedQuestions.push({
           ...question,
           question: translatedQuestion,
@@ -171,7 +152,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
 
       } catch (error) {
         console.error('Error traduciendo una pregunta:', error);
-        // Si falla la traducción de una pregunta, añadimos la original
         translatedQuestions.push(question);
       }
     }
@@ -179,20 +159,17 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
     return translatedQuestions;
   };
 
-  // Función de respaldo basada en reemplazos básicos
   const applyBackupTranslation = (questions, targetLanguage) => {
     if (!commonTranslations[targetLanguage]) {
-      return questions; // Devolver preguntas originales si no tenemos traducciones para ese idioma
+      return questions;
     }
 
     return questions.map(question => {
       try {
-        // Aplicar traducciones básicas a la pregunta
         let translatedQuestion = question.question;
         let translatedCorrectAnswer = question.correct_answer;
         let translatedIncorrectAnswers = [...question.incorrect_answers];
 
-        // Reemplazar palabras comunes usando el diccionario
         Object.entries(commonTranslations[targetLanguage]).forEach(([original, translated]) => {
           const regex = new RegExp(`\\b${original}\\b`, 'gi');
           translatedQuestion = translatedQuestion.replace(regex, translated);
@@ -202,7 +179,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
           );
         });
 
-        // Crear todas las respuestas mezcladas
         const translatedAllAnswers = [translatedCorrectAnswer, ...translatedIncorrectAnswers]
           .sort(() => Math.random() - 0.5);
 
@@ -223,7 +199,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
     });
   };
 
-  // Traducción con LibreTranslate
   const translateTextLibre = async (text, targetLanguage) => {
     try {
       if (!text || text.trim() === '') {
@@ -272,7 +247,6 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   };
 
   return (
-    // Agregar contenedor general para el fondo
     <div className={styles.quizContainer}>
       <header className={styles.headerBrain}>
         <h1 className="display-4">Brain Brawl</h1>
