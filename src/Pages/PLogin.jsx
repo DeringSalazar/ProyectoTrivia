@@ -1,19 +1,20 @@
 import React from 'react';
 import { Card, Button, Alert, Form } from 'react-bootstrap';
-import { Google, Facebook, Envelope } from 'react-bootstrap-icons';
+import { Google, Microsoft, Envelope } from 'react-bootstrap-icons';
 import logoImga from '../IMG/Brain.png';
 import '../Styles/CLogin.css';
+
 function PLogin({
   error,
   loginWithGoogle,
-  loginWithFacebook,
+  loginWithMicrosoft,
   loginWithEmailPassword,
   registerWithEmailPassword,
   email,
   setEmail,
   password,
   setPassword,
-  user, 
+  user,
   navigate
 }) {
   return (
@@ -90,18 +91,18 @@ function PLogin({
             </Button>
 
             <Button
-              variant="outline-primary"
-              onClick={loginWithFacebook}
+              variant="outline-secondary"
+              onClick={loginWithMicrosoft}
               className="d-flex align-items-center justify-content-center p-2"
               style={{ width: '50px', height: '50px' }}
             >
-              <Facebook className="m-auto" size={24} />
+              <Microsoft className="m-auto" size={24} />
             </Button>
           </div>
 
           <Button
             variant="link"
-            onClick={() => navigate('/')} 
+            onClick={() => navigate('/')}
           >
             Volver sin iniciar sesión
           </Button>

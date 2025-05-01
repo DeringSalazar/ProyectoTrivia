@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, googleProvider, facebookProvider } from '../firebase';
+import { auth, googleProvider, microsoftProvider } from '../firebase';
 import PLogin from '../Pages/PLogin';
 
 function Login({ setUser: setUserProp, onLoginSuccess }) {
@@ -19,35 +19,22 @@ function Login({ setUser: setUserProp, onLoginSuccess }) {
 
   const updateUser = (userData) => {
     setUserState(userData);
-    
-
-    if (setUserProp) {
-      setUserProp(userData);
-    }
-    
-    if (onLoginSuccess) {
-      
-      onLoginSuccess(userData);
-    } else {
-      
-      navigate('/');
-    }
+    if (setUserProp) setUserProp(userData);
+    if (onLoginSuccess) onLoginSuccess(userData);
+    else navigate('/');
   };
 
   const loginWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user);
-      
       const userData = {
         uid: user.uid,
         displayName: user.displayName,
         email: user.email,
-        photoURL: userPhotoURL,
+        photoURL: getUserPhotoURL(user),
         provider: 'google',
       };
-      
       updateUser(userData);
     } catch (err) {
       setError('Error al iniciar sesión con Google');
@@ -55,23 +42,20 @@ function Login({ setUser: setUserProp, onLoginSuccess }) {
     }
   };
 
-  const loginWithFacebook = async () => {
+  const loginWithMicrosoft = async () => {
     try {
-      const result = await signInWithPopup(auth, facebookProvider);
+      const result = await signInWithPopup(auth, microsoftProvider);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user);
-      
       const userData = {
         uid: user.uid,
-        displayName: user.displayName,
+        displayName: user.displayName || user.email,
         email: user.email,
-        photoURL: userPhotoURL,
-        provider: 'facebook',
+        photoURL: getUserPhotoURL(user),
+        provider: 'microsoft',
       };
-      
       updateUser(userData);
     } catch (err) {
-      setError('Error al iniciar sesión con Facebook');
+      setError('Error al iniciar sesión con Microsoft');
       console.error(err);
     }
   };
@@ -81,17 +65,13 @@ function Login({ setUser: setUserProp, onLoginSuccess }) {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user);
-      const userDisplayName = user.displayName || user.email;
-      
       const userData = {
         uid: user.uid,
-        displayName: userDisplayName,
+        displayName: user.displayName || user.email,
         email: user.email,
-        photoURL: userPhotoURL,
+        photoURL: getUserPhotoURL(user),
         provider: 'password',
       };
-      
       updateUser(userData);
     } catch (err) {
       setError('Correo o contraseña inválidos');
@@ -104,17 +84,13 @@ function Login({ setUser: setUserProp, onLoginSuccess }) {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       const user = result.user;
-      const userPhotoURL = getUserPhotoURL(user);
-      const userDisplayName = user.displayName || user.email;
-      
       const userData = {
         uid: user.uid,
-        displayName: userDisplayName,
+        displayName: user.displayName || user.email,
         email: user.email,
-        photoURL: userPhotoURL,
+        photoURL: getUserPhotoURL(user),
         provider: 'password',
       };
-      
       updateUser(userData);
     } catch (err) {
       setError('Error al registrar usuario: Ya existe esta cuenta');
@@ -122,22 +98,16 @@ function Login({ setUser: setUserProp, onLoginSuccess }) {
     }
   };
 
-  
   const navigateBack = () => {
-    if (onLoginSuccess) {
-     
-      onLoginSuccess(null); 
-    } else {
-      
-      navigate('/');
-    }
+    if (onLoginSuccess) onLoginSuccess(null);
+    else navigate('/');
   };
 
   return (
     <PLogin
       error={error}
       loginWithGoogle={loginWithGoogle}
-      loginWithFacebook={loginWithFacebook}
+      loginWithMicrosoft={loginWithMicrosoft}
       loginWithEmailPassword={loginWithEmailPassword}
       registerWithEmailPassword={registerWithEmailPassword}
       email={email}
@@ -150,4 +120,4 @@ function Login({ setUser: setUserProp, onLoginSuccess }) {
   );
 }
 
-export default Login;
+export default Login;
