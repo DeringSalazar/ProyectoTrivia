@@ -7,9 +7,9 @@ function ShareButtons({ gameStats }) {
 
   const shareScore = (platform) => {
     const shareText = `¡Acabo de obtener ${correctAnswers}/${totalQuestions} (${percentage}%) en Brain Brawl!`;
-    const url = window.location.origin;
+    const url = "https://reliable-strudel-a9a0b6.netlify.app"; 
     let shareUrl = "";
-
+  
     switch (platform) {
       case 'facebook':
         shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${encodeURIComponent(shareText)}`;
