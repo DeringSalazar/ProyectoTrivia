@@ -50,7 +50,7 @@ function PResults({ gameStats, user, onPlayAgain }) {
 
 function getColorByPercentage(percentage) {
   if (percentage < 40) return '#dc3545'; 
-  if (percentage < 70) return '#ffc107'; //
+  if (percentage < 70) return '#ffc107'; 
   return '#28a745'; 
 }
 

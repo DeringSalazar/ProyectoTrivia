@@ -13,20 +13,17 @@
     padding: 20px;
   }
   
-  /* Estilos para el título del Card */
   .card-title {
     font-size: 1.75rem;
     font-weight: 600;
     color: #000000;
   }
   
-  /* Estilos para el texto principal */
   .card p {
     font-size: 1rem;  
     color: #000000;  
   }
   
-  /* Estilos para los botones */
   button {
     font-size: 1.1rem;  
     padding: 12px; 
@@ -34,31 +31,27 @@
     border-radius: 8px;  
   }
   
-  /* Estilo específico para el botón de Google */
   button.btn-outline-danger {
     border: 2px solid #ea4335;
     color: #ea4335;
   }
   
-  /* Fondo rojo al pasar el mouse */
   button.btn-outline-danger:hover {
     background-color: #ea4335;
     color: white;
   }
   
-  /* Estilo específico para el botón de Facebook */
   button.btn-outline-primary {
     border: 2px solid #000000;
     color: #000000;
   }
   
-  button.btn-outline-primary:hover { /* Fondo azul al pasar el mouse de facebook */
+  button.btn-outline-primary:hover { 
     background-color: #f34eac;
     color: rgb(255, 255, 255);
     border: 2px solid #f34eac;
   }
   
-  /* Estilo para el botón de "Volver sin iniciar sesión" */
   button.btn-link {
     color: #000000;
     text-decoration: none;

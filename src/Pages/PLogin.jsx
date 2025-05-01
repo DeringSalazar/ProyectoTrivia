@@ -13,7 +13,7 @@ function PLogin({
   setEmail,
   password,
   setPassword,
-  user, // Recibimos user
+  user, 
   navigate
 }) {
   return (
@@ -27,7 +27,7 @@ function PLogin({
 
           {error && <Alert variant="danger">{error}</Alert>}
 
-          {user && user.displayName && ( // Usamos user aquí
+          {user && user.displayName && (
             <div className="user-info mb-4">
               <img
                 src={user.photoURL || 'ruta/a/imagen/default.jpg'}
@@ -101,7 +101,7 @@ function PLogin({
 
           <Button
             variant="link"
-            onClick={() => navigate('/')} // Esto ahora usará la función navigate que proporcionas
+            onClick={() => navigate('/')} 
           >
             Volver sin iniciar sesión
           </Button>

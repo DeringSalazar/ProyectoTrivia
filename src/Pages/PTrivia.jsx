@@ -8,7 +8,7 @@ import Login from '../Components/Login';
 import PResults from './PResults';
 import music from '../music/music4.mp3'; 
 
-function PTrivia({ onShowGuide, onLogin }) {
+function PTrivia() {
   const [gameConfig, setGameConfig] = useState({
     category: '',
     difficulty: '',

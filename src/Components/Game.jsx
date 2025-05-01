@@ -18,7 +18,7 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
   const [hasError, setHasError] = useState(false);
  
 
-  const audioRef = useRef(null); // Ref para el audio
+  const audioRef = useRef(null); 
 
   function getTimeLimit() {
     switch (gameConfig.difficulty) {
@@ -166,13 +166,6 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
     setHasError(false);
     navigate('/');
   }
-
-   <Button
-              variant="link"
-              onClick={() => navigate('/')} 
-            >
-              volver al inicio
-            </Button>
 }
 
 export default Game;
