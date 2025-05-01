@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/CTrivia.css';
+import '../Styles/CTrivia.css';
 import logoImg from '../IMG/Brain.png';
 import PHome from './PHome';
 import Game from '../Components/Game';
