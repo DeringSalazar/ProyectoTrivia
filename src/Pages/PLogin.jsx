@@ -91,7 +91,7 @@ function PLogin({
             </Button>
 
             <Button
-              variant="outline-secondary"
+              variant="microsoft"
               onClick={loginWithMicrosoft}
               className="d-flex align-items-center justify-content-center p-2"
               style={{ width: '50px', height: '50px' }}

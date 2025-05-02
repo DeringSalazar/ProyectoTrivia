@@ -32,12 +32,13 @@
   }
   
   button.btn-outline-danger {
-    border: 2px solid #ea4335;
-    color: #ea4335;
+    border: 2px solid #FF9800;
+    color:  #FF9800;
   }
   
   button.btn-outline-danger:hover {
-    background-color: #ea4335;
+    background-color: #d47f00;
+    border: 2px solid #d47f00;
     color: white;
   }
   
@@ -58,6 +59,17 @@
     font-weight: 500;
   }
   
+  button.btn-microsoft {
+    border: 2px solid  #50a5eb;
+    color:  #50a5eb;
+  }
+
+  button.btn-microsoft:hover {
+    background-color: #5035ea;
+    color: white;
+  }
+
+
   button.btn-link:hover {
     text-decoration: underline;
   }
