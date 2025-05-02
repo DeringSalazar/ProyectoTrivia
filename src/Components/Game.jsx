@@ -120,7 +120,7 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
             alt="Logo del juego"
             className="game-logo"
           />
-          <h1 className="game-title">Brain Brawl</h1>
+          <h1 className="mover">Brain Brawl</h1>
         </>
       )}
       <div className="game-header mb-4">
@@ -150,9 +150,7 @@ function Game({ gameConfig, questions, setGameStats, onEndGame }) {
         correctAnswer={correctAnswer}
       />
 
-      <div className="text-center mt-4">
-        <Button onClick={() => restartGame()} variant="primary">Reiniciar Juego</Button>
-      </div>
+      
     </div>
   );
 
