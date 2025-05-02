@@ -13,7 +13,7 @@ import google from '../IMG/google.png';
 import messenger from '../IMG/messenger.png';
 import netflix from '../IMG/netflix.png';
 import Brain from '../IMG/Brain.png';
-import music from '../music/music1.mp3'; 
+import music from '../music/music1.mp3';
 
 import '../Styles/MemoryGame.css';
 import Timer from './TimerMemory.jsx';
@@ -41,7 +41,7 @@ function MemoryGame() {
   const [showAllCards, setShowAllCards] = useState(true);
   const [timerResetKey, setTimerResetKey] = useState(0);
 
-  const audioRef = useRef(null); 
+  const audioRef = useRef(null);
 
   const initializeGame = () => {
     const shuffledCards = [...images, ...images]
@@ -70,7 +70,7 @@ function MemoryGame() {
   useEffect(() => {
     initializeGame();
     if (audioRef.current) {
-      audioRef.current.play(); 
+      audioRef.current.play();
     }
   }, []);
 
@@ -111,16 +111,8 @@ function MemoryGame() {
     setTimerResetKey(prev => prev + 1);
     initializeGame();
     if (audioRef.current) {
-      audioRef.current.currentTime = 0; 
-      audioRef.current.play(); 
-    }
-  };
-
-  const toggleMusic = () => { 
-    if (audioRef.current.paused) {
+      audioRef.current.currentTime = 0;
       audioRef.current.play();
-    } else {
-      audioRef.current.pause();
     }
   };
 
@@ -145,20 +137,22 @@ function MemoryGame() {
         )}
       </div>
 
-      <div className="card-grid">
-        {cards.map((card, index) => (
-          <div
-            key={card.id}
-            className={`card-item ${card.flipped ? 'card-flipped' : ''}`}
-            onClick={() => handleCardClick(index)}
-          >
-            {card.flipped || matchedCards.includes(card.name) ? (
-              <img src={card.src} alt={card.name} className="card-image" />
-            ) : (
-              <img src={Brain} alt="Brain" className="card-image" />
-            )}
-          </div>
-        ))}
+      <div className="panel-transparente">
+        <div className="card-grid">
+          {cards.map((card, index) => (
+            <div
+              key={card.id}
+              className={`card-item ${card.flipped ? 'card-flipped' : ''}`}
+              onClick={() => handleCardClick(index)}
+            >
+              {card.flipped || matchedCards.includes(card.name) ? (
+                <img src={card.src} alt={card.name} className="card-image" />
+              ) : (
+                <img src={Brain} alt="Brain" className="card-image" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="mt-4">
@@ -170,11 +164,9 @@ function MemoryGame() {
 
         <Button className="reiniciar" onClick={handleRestart}>Reiniciar Juego</Button>
         <Button className='inicio' onClick={() => navigate('/')}>Volver al inicio</Button>
-          
-       
       </div>
 
-      <audio ref={audioRef} src={music} loop /> 
+      <audio ref={audioRef} src={music} loop />
     </div>
   );
 }

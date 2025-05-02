@@ -63,7 +63,6 @@ button.disabled {
   color: #888;
 }
 
-
 .titulo{
   font-size: 30px;
   color: black;
@@ -140,4 +139,12 @@ button.disabled {
 
 .reiniciar:hover {
   background-color: #680968;
+}
+
+
+.panel-transparente {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
 }
