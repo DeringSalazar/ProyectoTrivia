@@ -67,7 +67,7 @@ function PTrivia() {
   const handlePlayAgain = () => {
     setCurrentScreen('home');
   };
-
+  
   return (
     <div className="trivia-container">
       <div className="trivia-content">
@@ -104,7 +104,8 @@ function PTrivia() {
             setQuestions={setQuestions}
             user={user}
             navigateToGame={navigateToGame}
-          />
+            onBackSuccess={() => setCurrentScreen('welcome')}          
+            />
         )}
 
         {currentScreen === 'game' && (

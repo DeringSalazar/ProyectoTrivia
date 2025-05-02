@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form, Card, Spinner, Alert } from 'react-bootstrap';
-import styles from '../Styles/CHome.module.css';
-import music from '../music/music1.mp3'; 
+import styles from '../styles/CHome.module.css';
+import music from '../music/music1.mp3';
 
 const categories = [
   { id: 9, name: 'Conocimiento General' },
@@ -53,7 +54,7 @@ const commonTranslations = {
   }
 };
 
-function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
+function PHome({ setGameConfig, setQuestions, user, navigateToGame, onBackSuccess }) {
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [language, setLanguage] = useState('');
@@ -61,6 +62,7 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
   const [error, setError] = useState('');
   const [isPlaying, setIsPlaying] = useState(true);
   const audioRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (audioRef.current) {
@@ -212,6 +214,11 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
     fetchQuestions();
   };
 
+  const navigateBack = () => { //Volver al inicio
+    if (onBackSuccess) onBackSuccess(null);
+    else navigate('/');
+  };
+
   return (
     <div className={styles.quizContainer}>
       <header className={styles.headerBrain}>
@@ -272,13 +279,22 @@ function PHome({ setGameConfig, setQuestions, user, navigateToGame }) {
                 ) : 'Comenzar Juego'}
               </Button>
             </div>
-          </Form>
 
-         
+            <Button
+              onClick={navigateBack} 
+              disabled={loading} 
+              className={styles.btnRegresar}
+            >
+              {loading ? (
+                <>
+                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                  Cargando...
+                </>
+              ) : 'Volver al inicio'}
+            </Button>
+          </Form>
         </Card.Body>
       </Card>
-
-      
       <audio ref={audioRef} src={music} loop />
     </div>
   );
