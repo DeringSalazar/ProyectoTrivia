@@ -83,6 +83,28 @@
     width: 300px; 
     height: auto;
     margin-bottom: 15px;
+    display: inline-block;
+    animation: moverAnimacion 2s infinite alternate ease-in-out;
   }
   
+  @keyframes moverAnimacion {
+    0% {
+        transform: translateX(0);
+    }
   
+    25% {
+        transform: translateX(-20px);
+    }
+  
+    50% {
+        transform: translateX(0);
+    }
+  
+    75% {
+        transform: translateX(20px);
+    }
+  
+    100% {
+        transform: translateX(0);
+    }
+  }

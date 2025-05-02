@@ -49,6 +49,30 @@ body {
   padding: 10px 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   font-family: 'Luckiest Guy', cursive;
+  display: inline-block;
+  animation: moverAnimacion 2s infinite alternate ease-in-out;
+}
+
+@keyframes moverAnimacion {
+  0% {
+      transform: translateX(0);
+  }
+
+  25% {
+      transform: translateX(-20px);
+  }
+
+  50% {
+      transform: translateX(0);
+  }
+
+  75% {
+      transform: translateX(20px);
+  }
+
+  100% {
+      transform: translateX(0);
+  }
 }
 
 
@@ -137,12 +161,35 @@ body {
   pointer-events: none; 
 }
 
+.btnRegresar::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+  top: 10px;
+  left: -100px; 
+  filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 
+    30px 10px 0 -5px rgba(255, 255, 255, 0.6),
+    50px 15px 0 -8px rgba(255, 255, 255, 0.4);
+  pointer-events: none; 
+}
+
+
 
 .btnPrimary:hover::after {
   opacity: 0.7;
   animation: floatCloud 3s ease-in-out infinite;
 }
 
+.btnRegresar:hover::after {
+  opacity: 0.7;
+  animation: floatCloud 3s ease-in-out infinite;
+}
 
 @keyframes floatCloud {
   0% {
@@ -282,6 +329,48 @@ body {
   color: white;
 }
 
+.btnRegresar {
+  background: #FF9800;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 14px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 0.5rem; 
+  color: white;
+}
+
+.btnRegresar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.6s;
+}
+
+.btnRegresar:hover::before {
+  left: 100%;
+}
+
+.btnRegresar:hover, .btnRegresar:focus {
+  background: linear-gradient(45deg, #048cad, #56cde2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+}
+
+.btnRegresar:active {
+  transform: translateY(1px);
+}
+
 .btnPrimary::before {
   content: '';
   position: absolute;
@@ -363,6 +452,10 @@ body {
   animation-delay: 0.6s;
 }
 
+.btnRegresar {
+  animation: fadeInUp 0.6s forwards;
+  animation-delay: 0.6s;
+}
 
 @media (max-width: 576px) {
   .formGroup {
@@ -396,6 +489,11 @@ body {
   cursor: not-allowed;
 }
 
+.formSelect:disabled, .btnRegresar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .btnPrimary:disabled {
   background: linear-gradient(45deg, #A5A6F6, #B8A3F9);
 }
@@ -405,6 +503,14 @@ body {
   opacity: 0.8;
 }
 
+.btnRegresar:disabled {
+  background: linear-gradient(45deg, #A5A6F6, #B8A3F9);
+}
+
+
+.btnRegresar:disabled .spinnerBorder {
+  opacity: 0.8;
+}
 
 .quizContainer {
   width: 100%;
